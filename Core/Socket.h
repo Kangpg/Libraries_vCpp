@@ -40,3 +40,4 @@ inline bool CSocket::SetSocketOpt(SOCKET& sock, int32 optNm, _Opt opt)
 {
 	return ::setsockopt(sock, SOL_SOCKET, optNm, reinterpret_cast<const char*>(&opt), sizeof(_Opt));
 }
+
