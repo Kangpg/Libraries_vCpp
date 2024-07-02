@@ -5,8 +5,8 @@
 class CWinNetwork : public CSingletonRef<CWinNetwork>
 {
 public:
-	CWinNetwork() = default;
-	~CWinNetwork() = default;
+	CWinNetwork();
+	~CWinNetwork();
 
 	bool NetInit();
 };

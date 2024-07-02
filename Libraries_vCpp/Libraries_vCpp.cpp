@@ -3,11 +3,18 @@
 
 #include <iostream>
 
-#include "../Core/StreamingBuffer.h"
+#include "../Core/ObjectFactory.h"
+
+class A
+{
+public:
+	A() {}
+	int a;
+};
 
 int main()
 {
-
+	auto a = CObjectFactory<A, 5>::GetInstance();
 
 	return 0;
 }

@@ -146,6 +146,7 @@
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Noncopyable.h" />
+    <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Overlapped.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="pch.h" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Acceptor.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Noncopyable.cpp" />
+    <ClCompile Include="ObjectFactory.cpp" />
     <ClCompile Include="Overlapped.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="pch.cpp">

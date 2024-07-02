@@ -2,7 +2,7 @@
 
 #include <WinSock2.h>
 
-class COverlapped : public ::OVERLAPPED, std::enable_shared_from_this<CSession>
+class COverlapped : public ::OVERLAPPED
 {
 public:
 	enum class eFLAG
