@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <mutex>
+#include <shared_mutex>
 #include "Noncopyable.h"
 
 template <typename _Ty>
@@ -25,7 +25,7 @@ template <typename _Ty>
 _Ty CSingletonRef<_Ty>::_mInstance;
 
 template <typename _Ty>
-class CSingletonPtr : public std::enable_shared_from_this<CSingletonPtr<_Ty>>, CNoncopyable
+class CSingletonPtr : public CNoncopyable
 {
 protected:
 	CSingletonPtr() = default;
@@ -43,6 +43,7 @@ public:
 	}
 
 private:
+	//static std::shared_mutex	_mMutex;
 	static std::once_flag		_mFlag;
 	static std::shared_ptr<_Ty> _mInstance;
 };
@@ -53,4 +54,21 @@ std::once_flag CSingletonPtr<_Ty>::_mFlag;
 template <typename _Ty>
 std::shared_ptr<_Ty> CSingletonPtr<_Ty>::_mInstance;
 
-// swap 이 가능한 포인터를 사용한 싱글톤 객체도 필요?
+// Lock safe initialization
+template <typename _Ty>
+class CSingletonRefLS : public CNoncopyable
+{
+protected:
+	CSingletonRefLS() = default;
+	~CSingletonRefLS() = default;
+
+public:
+	static _Ty& GetInstance()
+	{
+		static _Ty _mInstance;
+		return _mInstance;
+	}
+};
+
+template <typename _Ty>
+_Ty CSingletonRef<_Ty>::_mInstance;

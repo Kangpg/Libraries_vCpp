@@ -30,7 +30,7 @@ class CObjectFactory : public CSingletonPtr<CObjectFactory<_Ty, size>>
 
 	private:
 		std::shared_ptr<_Ty>	_mObject;
-		CObjectFactory* _mObjectFactory;
+		CObjectFactory*			_mObjectFactory;
 	};
 
 public:

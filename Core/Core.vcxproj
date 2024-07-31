@@ -143,6 +143,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Acceptor.h" />
+    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Noncopyable.h" />
@@ -161,6 +163,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Acceptor.cpp" />
+    <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Noncopyable.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />

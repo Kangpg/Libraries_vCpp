@@ -3,18 +3,18 @@
 
 #include <WS2tcpip.h>
 
-LPFN_ACCEPTEX				CSocket::AcceptEx               = nullptr;
-LPFN_CONNECTEX				CSocket::ConnectEx              = nullptr;
-LPFN_DISCONNECTEX			CSocket::DisconnectEx           = nullptr;
-LPFN_GETACCEPTEXSOCKADDRS	CSocket::GetAcceptExSockAddrs   = nullptr;
-LPFN_TRANSMITFILE			CSocket::TransmitFile           = nullptr;
+LPFN_ACCEPTEX				CSocketUtil::AcceptEx               = nullptr;
+LPFN_CONNECTEX				CSocketUtil::ConnectEx              = nullptr;
+LPFN_DISCONNECTEX			CSocketUtil::DisconnectEx           = nullptr;
+LPFN_GETACCEPTEXSOCKADDRS	CSocketUtil::GetAcceptExSockAddrs   = nullptr;
+LPFN_TRANSMITFILE			CSocketUtil::TransmitFile           = nullptr;
 
-void CSocket::SocketMsApiInit()
+void CSocketUtil::SocketMsApiInit()
 {
     SOCKET dsock = CreateSocket(WSA_FLAG_OVERLAPPED);
 }
 
-SOCKET CSocket::CreateSocket(DWORD ioflag/*= 0*/)
+SOCKET CSocketUtil::CreateSocket(DWORD ioflag/*= 0*/)
 {
     SOCKET sock = INVALID_SOCKET;
     if (sock = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, ioflag), INVALID_SOCKET == sock)
@@ -25,7 +25,7 @@ SOCKET CSocket::CreateSocket(DWORD ioflag/*= 0*/)
     return sock;
 }
 
-void CSocket::CloseSocket(SOCKET& sock)
+void CSocketUtil::CloseSocket(SOCKET& sock)
 {
     if (INVALID_SOCKET != sock)
         ::closesocket(sock);
@@ -33,7 +33,7 @@ void CSocket::CloseSocket(SOCKET& sock)
     sock = INVALID_SOCKET;
 }
 
-bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
+bool CSocketUtil::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
 {
     if (sock == INVALID_SOCKET)
         return false;
@@ -53,7 +53,7 @@ bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
     return true;
 }
 
-bool CSocket::Listen(SOCKET& sock, const int blog/*= SOMAXCONN*/)
+bool CSocketUtil::Listen(SOCKET& sock, const int blog/*= SOMAXCONN*/)
 {
     if (SOCKET_ERROR == ::listen(sock, blog))
     {
