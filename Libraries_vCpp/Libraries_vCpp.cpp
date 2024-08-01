@@ -9,12 +9,17 @@ class A
 {
 public:
 	A() {}
-	int a;
+	int a = 1123;
 };
 
 int main()
 {
 	auto a = CObjectFactory<A, 5>::GetInstance();
+
+	{
+		auto b = a->GetObject();
+		a->ReturnObject(b);
+	}
 
 	return 0;
 }

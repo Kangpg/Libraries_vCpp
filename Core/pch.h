@@ -31,5 +31,6 @@
 #include <future>
 #include <thread>
 #include <condition_variable>
+#include <stack>
 
 #endif //PCH_H
