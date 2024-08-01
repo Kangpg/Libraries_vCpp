@@ -23,6 +23,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 #include <unordered_map>
+#include <unordered_set>
 #include <string>
 #include <shared_mutex>
 #include <mutex>

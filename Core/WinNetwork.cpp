@@ -24,6 +24,6 @@ bool CWinNetwork::NetInit()
 		return false;
 	}
 
-	auto dsock = CSocket::CreateSocket();
+	auto dsock = CSocketUtil::CreateSocket();
 	return true;
 }

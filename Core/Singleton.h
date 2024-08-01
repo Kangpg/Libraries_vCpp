@@ -68,6 +68,3 @@ public:
 		return _mInstance;
 	}
 };
-
-template <typename _Ty>
-_Ty CSingletonRef<_Ty>::_mInstance;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 using byte		= unsigned char;
 
 using int8		= int8_t;

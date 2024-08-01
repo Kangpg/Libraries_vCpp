@@ -30,17 +30,17 @@ public:
 
 	bool Accept()
 	{
-		if (_mSocket = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mSocket == INVALID_SOCKET)
+		if (_mSocket = CSocketUtil::CreateSocket(WSA_FLAG_OVERLAPPED), _mSocket == INVALID_SOCKET)
 		{
 			throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
 		}
 
-        if (!CSocket::Bind(_mSocket, L"localhost", 5555))
+        if (!CSocketUtil::Bind(_mSocket, L"localhost", 5555))
         {
             throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
         }
 
-        if (!CSocket::Listen(_mSocket, SOMAXCONN))
+        if (!CSocketUtil::Listen(_mSocket, SOMAXCONN))
         {
             throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
         }

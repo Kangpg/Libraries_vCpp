@@ -1,6 +1,7 @@
 #pragma once
 
 #include "pch.h"
+#include "Singleton.h"
 
 template <typename _Ty, size_t size = 10>
 class CObjectFactory : public CSingletonPtr<CObjectFactory<_Ty, size>>
