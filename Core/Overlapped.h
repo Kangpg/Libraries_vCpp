@@ -1,6 +1,6 @@
 #pragma once
 
-#include <WinSock2.h>
+#include "pch.h"
 
 class COverlapped : public ::OVERLAPPED
 {

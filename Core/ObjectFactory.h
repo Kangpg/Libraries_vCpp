@@ -1,11 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <unordered_set>
-#include <iostream>
-#include <cstddef>
-#include "Singleton.h"
-#include "Types.h"
+#include "pch.h"
 
 template <typename _Ty, size_t size = 10>
 class CObjectFactory : public CSingletonPtr<CObjectFactory<_Ty, size>>

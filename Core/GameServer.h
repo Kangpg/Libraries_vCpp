@@ -1,8 +1,7 @@
 #pragma once
 
+#include "pch.h"
 #include "Interface.h"
-#include "Types.h"
-#include <string>
 
 class CGameServer : public CInterface
 {

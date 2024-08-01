@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Windows.h>
-#include "Types.h"
+#include "pch.h"
 #include "Noncopyable.h"
 
 #define dfDEFAULT_STREAMING_BUFFER_SIZE 2

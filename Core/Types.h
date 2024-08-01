@@ -2,7 +2,7 @@
 
 using byte		= unsigned char;
 
-using int8		= __int8;
+using int8		= int8_t;
 using int16		= __int16;
 using int32		= __int32;
 using int64		= __int64;

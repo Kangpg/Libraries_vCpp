@@ -10,4 +10,25 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+#include "Types.h"
+
+#include <Windows.h>
+#include <memory>
+#include <iostream>
+#include <cstddef>
+#include <functional>
+#include <winsock2.h>
+#include <MSWSock.h>
+
+#pragma comment(lib, "ws2_32.lib")
+
+#include <unordered_map>
+#include <string>
+#include <shared_mutex>
+#include <mutex>
+#include <queue>
+#include <future>
+#include <thread>
+#include <condition_variable>
+
 #endif //PCH_H

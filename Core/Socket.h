@@ -1,12 +1,6 @@
 #pragma once
 
-#include "Types.h"
-#include <string>
-#include <winsock2.h>
-#include <MSWSock.h>
-#include <cstddef>
-#include <iostream>
-#pragma comment(lib, "ws2_32.lib")
+#include "pch.h"
 
 class CSocketUtil abstract
 {
