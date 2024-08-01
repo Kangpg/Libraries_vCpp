@@ -2,8 +2,7 @@
 //
 
 #include <iostream>
-
-#include "../Core/ObjectFactory.h"
+#include "GameServer.h"
 
 class A
 {
@@ -14,12 +13,7 @@ public:
 
 int main()
 {
-	auto a = CObjectFactory<A, 5>::GetInstance();
-
-	{
-		auto b = a->GetObject();
-		a->ReturnObject(b);
-	}
+	CGameServer gameserver(L"localhost", 5555, 1000);
 
 	return 0;
 }

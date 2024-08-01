@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameServer.cpp" />
     <ClCompile Include="Libraries_vCpp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

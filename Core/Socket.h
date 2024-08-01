@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-class CSocketUtil abstract
+class CSocket
 {
 public:
 	static LPFN_ACCEPTEX				AcceptEx;
@@ -27,33 +27,12 @@ public:
 	static bool		SetSocketOpt(SOCKET& sock, int32 optNm, _Opt opt);
 
 	static bool		Bind(SOCKET& sock, const wchar_t* ip, const uint16 port);
+	static bool		Bind(SOCKET& sock, SOCKADDR_IN address);
 	static bool		Listen(SOCKET& sock, const int blog = SOMAXCONN);
 };
 
 template<typename _Opt>
-inline bool CSocketUtil::SetSocketOpt(SOCKET& sock, int32 optNm, _Opt opt)
+inline bool CSocket::SetSocketOpt(SOCKET& sock, int32 optNm, _Opt opt)
 {
 	return ::setsockopt(sock, SOL_SOCKET, optNm, reinterpret_cast<const char*>(&opt), sizeof(_Opt));
 }
-
-class CSocket
-{
-public:
-	CSocket(DWORD ioflag = 0)
-	{
-		if (_mSocket = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, ioflag), _mSocket == INVALID_SOCKET)
-		{
-			throw std::runtime_error("Socket constructor error : " + std::to_string(::WSAGetLastError()));
-		}
-	}
-	~CSocket()
-	{
-		if (_mSocket != INVALID_SOCKET)
-			closesocket(_mSocket);
-	}
-
-	SOCKET GetSocket() const { return _mSocket; }
-
-private:
-	SOCKET _mSocket = INVALID_SOCKET;
-};

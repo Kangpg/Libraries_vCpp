@@ -21,34 +21,3 @@ std::string GetWSAErrorMessage(int errorCode) {
 
     return message;
 }
-
-class CAcceptor
-{
-public:
-	CAcceptor() = default;
-	~CAcceptor() = default;
-
-	bool Accept()
-	{
-		if (_mSocket = CSocketUtil::CreateSocket(WSA_FLAG_OVERLAPPED), _mSocket == INVALID_SOCKET)
-		{
-			throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
-		}
-
-        if (!CSocketUtil::Bind(_mSocket, L"localhost", 5555))
-        {
-            throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
-        }
-
-        if (!CSocketUtil::Listen(_mSocket, SOMAXCONN))
-        {
-            throw std::runtime_error(GetWSAErrorMessage(::WSAGetLastError()));
-        }
-
-		return true;
-	}
-
-private:
-	SOCKET _mSocket = INVALID_SOCKET;
-};
-
