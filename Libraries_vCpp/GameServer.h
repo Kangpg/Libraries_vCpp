@@ -1,9 +1,7 @@
 #pragma once
 
-#include "../Core/Interface.h"
 #include "../Core/Types.h"
 #include "../Core/Server.h"
-#include <string>
 
 class CGameServer : public CServer
 {
@@ -16,11 +14,11 @@ public:
 	virtual ~CGameServer() = default;
 
 public:
-	bool Start()
+	virtual bool Start() override
 	{
 		return __super::Start();
 	}
-	bool End()
+	virtual bool End() override
 	{
 		return __super::End();
 	}

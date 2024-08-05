@@ -45,9 +45,11 @@ public:
 	CObjectFactoryLazy() noexcept = default;
 	~CObjectFactoryLazy() noexcept = default;
 
-	void Init(const size_t size)
+	void Init(const uint32 size)
 	{
-		for (size_t idx = 0; idx < size; ++idx)
+		_mMaxObjectCnt = size;
+
+		for (auto idx = 0; idx < size; ++idx)
 		{
 			_mObjectList.push_back(std::make_shared<_Ty>());
 		}
@@ -71,8 +73,11 @@ public:
 		_mObjectList.push_back(object);
 	}
 
+	uint32 GetMaxObjectCnt() const { return _mMaxObjectCnt; }
+
 private:
 	std::list<std::shared_ptr<_Ty>>	_mObjectList;
+	uint32							_mMaxObjectCnt;
 };
 
 template <typename _Ty, size_t size = 10>

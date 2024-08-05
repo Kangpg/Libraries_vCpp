@@ -1,25 +1,14 @@
 #include "pch.h"
 #include "Socket.h"
+#include "Utils.h"
 
-#include <WS2tcpip.h>
-
-LPFN_ACCEPTEX				CSocket::AcceptEx               = nullptr;
-LPFN_CONNECTEX				CSocket::ConnectEx              = nullptr;
-LPFN_DISCONNECTEX			CSocket::DisconnectEx           = nullptr;
-LPFN_GETACCEPTEXSOCKADDRS	CSocket::GetAcceptExSockAddrs   = nullptr;
-LPFN_TRANSMITFILE			CSocket::TransmitFile           = nullptr;
-
-void CSocket::SocketMsApiInit()
-{
-    SOCKET dsock = CreateSocket(WSA_FLAG_OVERLAPPED);
-}
-
-SOCKET CSocket::CreateSocket(DWORD ioflag/*= 0*/)
+SOCKET CSocket::CreateSocket(DWORD ioflag)
 {
     SOCKET sock = INVALID_SOCKET;
-    if (sock = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, ioflag), INVALID_SOCKET == sock)
+    if (sock = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED), INVALID_SOCKET == sock)
     {
-        //::WSAGetLastError()
+        PrintWSAError("CreateSocket");
+        return INVALID_SOCKET;
     }
 
     return sock;
@@ -42,11 +31,20 @@ bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
     address.sin_family = AF_INET;
     address.sin_port = ::htons(port);
 
-    ::InetPtonW(AF_INET, ip, &address.sin_addr);
-
-    if (SOCKET_ERROR == ::bind(sock, reinterpret_cast<const sockaddr*>(&address.sin_addr), sizeof(sockaddr)))
+    auto ret = ::InetPtonW(AF_INET, ip, &address.sin_addr);
+    switch (ret)
     {
-        // WSAGetLastError()
+    case -1:
+        PrintWSAError("InetPtonW");
+        return false;
+    case 0:
+        std::runtime_error("InetPtonW invalid address");
+        return false;
+    }
+
+    if (SOCKET_ERROR == ::bind(sock, reinterpret_cast<const sockaddr*>(&address), sizeof(sockaddr_in)))
+    {
+        PrintWSAError("Bind");
         return false;
     }
 
@@ -58,9 +56,10 @@ bool CSocket::Bind(SOCKET& sock, SOCKADDR_IN address)
     if (sock == INVALID_SOCKET)
         return false;
 
-    if (SOCKET_ERROR == ::bind(sock, reinterpret_cast<const sockaddr*>(&address.sin_addr), sizeof(sockaddr)))
+    auto ret = ::bind(sock, reinterpret_cast<const sockaddr*>(&address), sizeof(sockaddr_in));
+    if (SOCKET_ERROR == ret)
     {
-        // WSAGetLastError()
+        PrintWSAError("Bind");
         return false;
     }
 
@@ -71,7 +70,7 @@ bool CSocket::Listen(SOCKET& sock, const int blog/*= SOMAXCONN*/)
 {
     if (SOCKET_ERROR == ::listen(sock, blog))
     {
-        // WSAGetLastError()
+        PrintWSAError("Listen");
         return false;
     }
 

@@ -29,3 +29,7 @@ public:
 	eFLAG	_mFlag = eFLAG::eNone;
 };
 
+class IocpEvent
+{
+
+};

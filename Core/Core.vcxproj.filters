@@ -48,9 +48,6 @@
     <ClInclude Include="ObjectFactory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Acceptor.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="Overlapped.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -60,16 +57,22 @@
     <ClInclude Include="Session.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Socket.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="WinNetwork.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Interface.h">
+    <ClInclude Include="Server.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Server.h">
+    <ClInclude Include="Socket.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceptor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Iocp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -98,9 +101,6 @@
     <ClCompile Include="ObjectFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Acceptor.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="Overlapped.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -110,16 +110,22 @@
     <ClCompile Include="Session.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Socket.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="WinNetwork.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Interface.cpp">
+    <ClCompile Include="Server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Server.cpp">
+    <ClCompile Include="Socket.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Iocp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

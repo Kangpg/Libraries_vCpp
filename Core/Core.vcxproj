@@ -143,7 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Acceptor.h" />
-    <ClInclude Include="Interface.h" />
+    <ClInclude Include="Iocp.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Noncopyable.h" />
@@ -159,11 +159,12 @@
     <ClInclude Include="System.h" />
     <ClInclude Include="TaskPool.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="WinNetwork.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Acceptor.cpp" />
-    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Iocp.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Noncopyable.cpp" />
     <ClCompile Include="ObjectFactory.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="StreamingBuffer.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TaskPool.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinNetwork.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

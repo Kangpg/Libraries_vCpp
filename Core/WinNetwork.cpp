@@ -7,7 +7,7 @@
 
 CWinNetwork::CWinNetwork()
 {
-
+	NetInit();
 }
 
 CWinNetwork::~CWinNetwork()

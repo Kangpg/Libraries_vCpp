@@ -1,19 +1,24 @@
 #pragma once
 
 #include "pch.h"
-#include "Interface.h"
 #include "ObjectFactory.h"
 #include "Session.h"
-#include "Acceptor.h"
 #include "Socket.h"
+#include "Iocp.h"
 
 #define dfDEFAULT_SESSION_CNT = 100;
 
-class CServer : public CInterface
+class CServer
 {
 public:
+	CServer()
+	{
+		_mOverlappedList.clear();
+	}
 	CServer(const std::wstring ip, const uint16 port, const uint16 sessionCnt)
 	{
+		_mOverlappedList.clear();
+
 		ZeroMemory(&_mAddress, sizeof(_mAddress));
 		_mAddress.sin_family = AF_INET;
 		_mAddress.sin_port = ::htons(port);
@@ -25,39 +30,49 @@ public:
 	~CServer() = default;
 
 public:
-	virtual bool Start() override
+	virtual bool Start()
 	{
-		if (_mAcceptor = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mAcceptor = INVALID_SOCKET)
-			// Log
+		if (_mAcceptor = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mAcceptor == INVALID_SOCKET)
+			return false;
+
+		if (!_mIocp.RegistHandle(reinterpret_cast<HANDLE>(_mAcceptor)))
 			return false;
 
 		LINGER linger;
 		linger.l_onoff = 0;
 		linger.l_linger = 0;
 		if (!CSocket::SetSocketOpt<LINGER>(_mAcceptor, SO_LINGER, linger))
-			// Log
 			return false;
 
 		if (!CSocket::Bind(_mAcceptor, _mAddress))
-			// Log
 			return false;
 
 		if (!CSocket::Listen(_mAcceptor, SOMAXCONN))
-			// Log
 			return false;
 
-		// AcceptEx
+		auto maxCnt = _mSessionFactory.GetMaxObjectCnt();
+		for (auto idx = 0; idx < maxCnt; ++idx)
+		{
+			auto accpetOverlapped = std::make_shared<COverlapped>(COverlapped::eFLAG::eAccept);
+			_mOverlappedList.push_back(accpetOverlapped);
+
+			// TODO
+		}
+
+		return true;
 	}
 
-	virtual bool End() override
+	virtual bool End()
 	{
-
+		return false;
 	}
 
 private:
-	SOCKADDR_IN						_mAddress = {};
-	SOCKET							_mAcceptor = INVALID_SOCKET;
+	SOCKADDR_IN									_mAddress = {};
+	SOCKET										_mAcceptor = INVALID_SOCKET;
+	CIocp										_mIocp;
 
-	CObjectFactoryLazy<CSession>	_mSessionFactory;
+	CObjectFactoryLazy<CSession>				_mSessionFactory;
+	std::vector<std::shared_ptr<COverlapped>>	_mOverlappedList;
 };
 
