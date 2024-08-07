@@ -15,17 +15,17 @@ public:
 	constexpr size_t GetUsedSize() const;
 
 	template <typename _Func, typename... _Args>
-	std::future<std::_Invoke_result_t<std::decay_t<_Func>, std::decay_t<_Args>...>> PushTask(_Func&& func, _Args&& ... args);
+	future<_Invoke_result_t<decay_t<_Func>, decay_t<_Args>...>> PushTask(_Func&& func, _Args&& ... args);
 
 private:
 	void Run();
 
 private:
-	std::mutex							_mMutex;
-	std::queue<std::function<void()>>	_mTaskQueue;
-	std::array<std::thread, size>		_mManagedThreads;
-	std::condition_variable				_mCv;
-	bool								_mStop = false;
+	mutex							_mMutex;
+	queue<function<void()>>			_mTaskQueue;
+	array<thread, size>				_mManagedThreads;
+	condition_variable				_mCv;
+	bool							_mStop = false;
 };
 
 template <size_t size>
@@ -33,7 +33,7 @@ CTaskPool<size>::CTaskPool()
 {
 	for (auto& threads : _mManagedThreads)
 	{
-		threads = std::move(std::thread([this]()->void { Run(); }));
+		threads = move(thread([this]()->void { Run(); }));
 	}
 }
 
@@ -57,18 +57,18 @@ inline constexpr size_t CTaskPool<size>::GetMaxSize() const
 template <size_t size>
 inline constexpr size_t CTaskPool<size>::GetUsedSize() const
 {
-	std::lock_guard<std::mutex> lock(_mMutex);
+	lock_guard<mutex> lock(_mMutex);
 	return _mTaskQueue.size();
 }
 
 template <size_t size>
 template <typename _Func, typename... _Args>
-std::future<std::_Invoke_result_t<std::decay_t<_Func>, std::decay_t<_Args>...>> CTaskPool<size>::PushTask(_Func&& func, _Args&& ... args)
+future<_Invoke_result_t<decay_t<_Func>, decay_t<_Args>...>> CTaskPool<size>::PushTask(_Func&& func, _Args&& ... args)
 {
-	auto task = std::make_shared<std::packaged_task<std::_Invoke_result_t<std::decay_t<_Func>, std::decay_t<_Args>...>()>>(std::bind(std::forward<_Func>(func), std::forward<_Args>(args)...));
+	auto task = make_shared<packaged_task<_Invoke_result_t<decay_t<_Func>, decay_t<_Args>...>()>>(bind(forward<_Func>(func), forward<_Args>(args)...));
 	auto fut = task->get_future();
 
-	std::lock_guard<std::mutex> lock(_mMutex);
+	lock_guard<mutex> lock(_mMutex);
 	_mTaskQueue.push([task = task]()->void { (*task)(); });
 
 	_mCv.notify_one();
@@ -81,13 +81,13 @@ void CTaskPool<size>::Run()
 {
 	while (!_mStop)
 	{
-		std::unique_lock<std::mutex> lock(_mMutex);
+		unique_lock<mutex> lock(_mMutex);
 		_mCv.wait(lock, [this]()->bool { return !_mTaskQueue.empty() || _mStop; });
 
 		if (_mStop && _mTaskQueue.empty())
 			return;
 
-		auto task = std::move(_mTaskQueue.front());
+		auto task = move(_mTaskQueue.front());
 		_mTaskQueue.pop();
 
 		lock.unlock();

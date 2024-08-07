@@ -28,14 +28,14 @@ public:
 	void SendPacket(::WSABUF& buf)
 	{
 		{
-			std::lock_guard<std::mutex> lock(_mMutex);
+			lock_guard<mutex> lock(_mMutex);
 
 			/*auto ret = ::WSASend(_mSock, &buf, buf.len, )*/
 		}
 	}
 
 private:
-	std::mutex								_mMutex;
+	mutex									_mMutex;
 	SOCKET									_mSock = INVALID_SOCKET;
 
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mRecvBuf;

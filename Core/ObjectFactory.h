@@ -11,16 +11,16 @@ public:
 	{
 		for (size_t idx = 0; idx < size; ++idx)
 		{
-			_mObjectList.push_back(std::make_shared<_Ty>());
+			_mObjectList.push_back(make_shared<_Ty>());
 		}
 	}
 	~CObjectFactory() noexcept = default;
 
-	std::shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetObject()
 	{
 		if (_mObjectList.empty())
 		{
-			throw std::runtime_error("Error");
+			throw runtime_error("Error");
 		}
 
 		auto object = _mObjectList.front();
@@ -29,13 +29,13 @@ public:
 		return object;
 	}
 
-	void ReturnObject(std::shared_ptr<_Ty> object)
+	void ReturnObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}
 
 private:
-	std::list<std::shared_ptr<_Ty>>	_mObjectList;
+	list<shared_ptr<_Ty>>	_mObjectList;
 };
 
 template <typename _Ty>
@@ -51,15 +51,15 @@ public:
 
 		for (auto idx = 0; idx < size; ++idx)
 		{
-			_mObjectList.push_back(std::make_shared<_Ty>());
+			_mObjectList.push_back(make_shared<_Ty>());
 		}
 	}
 
-	std::shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetObject()
 	{
 		if (_mObjectList.empty())
 		{
-			throw std::runtime_error("Error");
+			throw runtime_error("Error");
 		}
 
 		auto object = _mObjectList.front();
@@ -68,7 +68,7 @@ public:
 		return object;
 	}
 
-	void ReturnObject(std::shared_ptr<_Ty> object)
+	void ReturnObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}
@@ -76,7 +76,7 @@ public:
 	uint32 GetMaxObjectCnt() const { return _mMaxObjectCnt; }
 
 private:
-	std::list<std::shared_ptr<_Ty>>	_mObjectList;
+	list<shared_ptr<_Ty>>	_mObjectList;
 	uint32							_mMaxObjectCnt;
 };
 
@@ -88,16 +88,16 @@ public:
 	{
 		for (size_t idx = 0; idx < size; ++idx)
 		{
-			_mObjectList.push_back(std::make_shared<_Ty>());
+			_mObjectList.push_back(make_shared<_Ty>());
 		}
 	}
 	~CObjectFactorySgt() noexcept = default;
 
-	std::shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetObject()
 	{
 		if (_mObjectList.empty())
 		{
-			throw std::runtime_error("Error");
+			throw runtime_error("Error");
 		}
 
 		auto object = _mObjectList.front();
@@ -106,11 +106,11 @@ public:
 		return object;
 	}
 
-	void ReturnObject(std::shared_ptr<_Ty> object)
+	void ReturnObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}
 
 private:
-	std::list<std::shared_ptr<_Ty>>	_mObjectList;
+	list<shared_ptr<_Ty>>	_mObjectList;
 };

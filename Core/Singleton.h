@@ -31,27 +31,27 @@ protected:
 	~CSingletonPtr() = default;
 
 public:
-	static std::shared_ptr<_Ty> GetInstance()
+	static shared_ptr<_Ty> GetInstance()
 	{
-		std::call_once(_mFlag, []()
+		call_once(_mFlag, []()
 			{
-				_mInstance = std::make_shared<_Ty>();
+				_mInstance = s:make_shared<_Ty>();
 			});
 
 		return _mInstance;
 	}
 
 private:
-	//static std::shared_mutex	_mMutex;
-	static std::once_flag		_mFlag;
-	static std::shared_ptr<_Ty> _mInstance;
+	//static shared_mutex	_mMutex;
+	static once_flag		_mFlag;
+	static shared_ptr<_Ty> _mInstance;
 };
 
 template <typename _Ty>
-std::once_flag CSingletonPtr<_Ty>::_mFlag;
+once_flag CSingletonPtr<_Ty>::_mFlag;
 
 template <typename _Ty>
-std::shared_ptr<_Ty> CSingletonPtr<_Ty>::_mInstance;
+shared_ptr<_Ty> CSingletonPtr<_Ty>::_mInstance;
 
 // Lock safe initialization
 template <typename _Ty>

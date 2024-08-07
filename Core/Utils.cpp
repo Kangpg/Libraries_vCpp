@@ -15,7 +15,7 @@ void PrintWSAError(const char* msg) {
         NULL
     );
 
-    std::cerr << msg << L": " << (errMsg ? errMsg : L"Unknown error") << std::endl;
+    cerr << msg << L": " << (errMsg ? errMsg : L"Unknown error") << endl;
     if (errMsg) {
         LocalFree(errMsg);
     }

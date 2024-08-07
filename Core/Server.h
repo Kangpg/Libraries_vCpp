@@ -15,7 +15,7 @@ public:
 	{
 		_mOverlappedList.clear();
 	}
-	CServer(const std::wstring ip, const uint16 port, const uint16 sessionCnt)
+	CServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
 	{
 		_mOverlappedList.clear();
 
@@ -53,7 +53,7 @@ public:
 		auto maxCnt = _mSessionFactory.GetMaxObjectCnt();
 		for (auto idx = 0; idx < maxCnt; ++idx)
 		{
-			auto accpetOverlapped = std::make_shared<COverlapped>(COverlapped::eFLAG::eAccept);
+			auto accpetOverlapped = make_shared<COverlapped>(COverlapped::eFLAG::eAccept);
 			_mOverlappedList.push_back(accpetOverlapped);
 
 			// TODO
@@ -73,6 +73,6 @@ private:
 	CIocp										_mIocp;
 
 	CObjectFactoryLazy<CSession>				_mSessionFactory;
-	std::vector<std::shared_ptr<COverlapped>>	_mOverlappedList;
+	vector<shared_ptr<COverlapped>>				_mOverlappedList;
 };
 

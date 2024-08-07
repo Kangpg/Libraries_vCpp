@@ -38,7 +38,7 @@ bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
         PrintWSAError("InetPtonW");
         return false;
     case 0:
-        std::runtime_error("InetPtonW invalid address");
+        runtime_error("InetPtonW invalid address");
         return false;
     }
 

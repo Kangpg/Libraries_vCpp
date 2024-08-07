@@ -6,7 +6,7 @@
 class CGameServer : public CServer
 {
 public:
-	CGameServer(const std::wstring ip, const uint16 port, const uint16 sessionCnt)
+	CGameServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
 		: CServer(ip, port, sessionCnt)
 	{
 		
