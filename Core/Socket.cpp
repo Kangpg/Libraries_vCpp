@@ -2,10 +2,16 @@
 #include "Socket.h"
 #include "Utils.h"
 
+LPFN_CONNECTEX		        CSocket::ConnectEx              = nullptr;
+LPFN_DISCONNECTEX	        CSocket::DisconnectEx           = nullptr;
+LPFN_ACCEPTEX		        CSocket::AcceptEx               = nullptr;
+LPFN_GETACCEPTEXSOCKADDRS	CSocket::GetAcceptExSockAddrs   = nullptr;
+LPFN_TRANSMITFILE			CSocket::TransmitFile           = nullptr;
+
 SOCKET CSocket::CreateSocket(DWORD ioflag)
 {
     SOCKET sock = INVALID_SOCKET;
-    if (sock = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED), INVALID_SOCKET == sock)
+    if (sock = ::WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, ioflag), INVALID_SOCKET == sock)
     {
         PrintWSAError("CreateSocket");
         return INVALID_SOCKET;

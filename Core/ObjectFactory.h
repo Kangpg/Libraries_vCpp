@@ -16,7 +16,7 @@ public:
 	}
 	~CObjectFactory() noexcept = default;
 
-	shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetFactoryObject()
 	{
 		if (_mObjectList.empty())
 		{
@@ -29,7 +29,7 @@ public:
 		return object;
 	}
 
-	void ReturnObject(shared_ptr<_Ty> object)
+	void ReturnFactoryObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}
@@ -49,13 +49,13 @@ public:
 	{
 		_mMaxObjectCnt = size;
 
-		for (auto idx = 0; idx < size; ++idx)
+		for (auto idx = 0; idx < static_cast<int>(size); ++idx)
 		{
 			_mObjectList.push_back(make_shared<_Ty>());
 		}
 	}
 
-	shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetFactoryObject()
 	{
 		if (_mObjectList.empty())
 		{
@@ -68,7 +68,7 @@ public:
 		return object;
 	}
 
-	void ReturnObject(shared_ptr<_Ty> object)
+	void ReturnFactoryObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}
@@ -77,7 +77,7 @@ public:
 
 private:
 	list<shared_ptr<_Ty>>	_mObjectList;
-	uint32							_mMaxObjectCnt;
+	uint32					_mMaxObjectCnt = 0;
 };
 
 template <typename _Ty, size_t size = 10>
@@ -93,7 +93,7 @@ public:
 	}
 	~CObjectFactorySgt() noexcept = default;
 
-	shared_ptr<_Ty> GetObject()
+	shared_ptr<_Ty> GetFactoryObject()
 	{
 		if (_mObjectList.empty())
 		{
@@ -106,7 +106,7 @@ public:
 		return object;
 	}
 
-	void ReturnObject(shared_ptr<_Ty> object)
+	void ReturnFactoryObject(shared_ptr<_Ty> object)
 	{
 		_mObjectList.push_back(object);
 	}

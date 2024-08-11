@@ -5,17 +5,20 @@
 #include "Session.h"
 #include "Socket.h"
 #include "Iocp.h"
+#include "SessionManager.h"
 
-#define dfDEFAULT_SESSION_CNT = 100;
+#define dfDEFAULT_SESSION_CNT 10
 
 class CServer
 {
 public:
 	CServer()
+		: _mSessionManager(dfDEFAULT_SESSION_CNT)
 	{
 		_mOverlappedList.clear();
 	}
 	CServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
+		: _mSessionManager(sessionCnt)
 	{
 		_mOverlappedList.clear();
 
@@ -24,8 +27,6 @@ public:
 		_mAddress.sin_port = ::htons(port);
 
 		::InetPtonW(AF_INET, ip.c_str(), &_mAddress.sin_addr);
-
-		_mSessionFactory.Init(static_cast<size_t>(sessionCnt));
 	}
 	~CServer() = default;
 
@@ -50,13 +51,26 @@ public:
 		if (!CSocket::Listen(_mAcceptor, SOMAXCONN))
 			return false;
 
-		auto maxCnt = _mSessionFactory.GetMaxObjectCnt();
+		auto maxCnt = _mSessionManager.GetMaxSessionCnt();
 		for (auto idx = 0; idx < maxCnt; ++idx)
 		{
 			auto accpetOverlapped = make_shared<COverlapped>(COverlapped::eFLAG::eAccept);
 			_mOverlappedList.push_back(accpetOverlapped);
 
-			// TODO
+			auto session = _mSessionManager.CreateSession();
+
+			// Reg iocp
+			_mIocp.RegistHandle(reinterpret_cast<HANDLE>(session->GetSocket()));
+
+			DWORD bytes = 0;
+			if (!CSocket::AcceptEx(_mAcceptor, session->GetSocket(), session->_mRecvBuf.GetHeadPos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, static_cast<LPOVERLAPPED>(accpetOverlapped.get())))
+			{
+				if (WSA_IO_PENDING == ::WSAGetLastError())
+				{
+					// TODO : Try callback
+					return false;
+				}
+			}
 		}
 
 		return true;
@@ -72,7 +86,7 @@ private:
 	SOCKET										_mAcceptor = INVALID_SOCKET;
 	CIocp										_mIocp;
 
-	CObjectFactoryLazy<CSession>				_mSessionFactory;
 	vector<shared_ptr<COverlapped>>				_mOverlappedList;
+	CSessionManager								_mSessionManager;
 };
 

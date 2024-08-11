@@ -11,7 +11,7 @@ public:
 		_mIocp = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 		if (_mIocp == INVALID_HANDLE_VALUE)
 		{
-			std::runtime_error("CreateIoCompletionPort");
+			runtime_error("CreateIoCompletionPort");
 		}
 	}
 	~CIocp() = default;
