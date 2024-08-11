@@ -1,11 +1,11 @@
 ﻿#include "Types.h"
 
+#include <winsock2.h>
 #include <Windows.h>
 #include <memory>
 #include <iostream>
 #include <cstddef>
 #include <functional>
-#include <winsock2.h>
 #include <MSWSock.h>
 #include <Ws2tcpip.h>
 

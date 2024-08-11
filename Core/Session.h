@@ -16,6 +16,8 @@ private:
 
 class CSession : public COverlapped
 {
+	friend class CServer;
+
 	enum 
 	{
 		eSTREAMING_BUFF_SIZE = 0x10000, // 64 kibi
@@ -25,6 +27,8 @@ public:
 	CSession() = default;
 	virtual ~CSession() = default;
 
+	SOCKET GetSocket() const { return _mSock; }
+
 	void SendPacket(::WSABUF& buf)
 	{
 		{
@@ -32,6 +36,11 @@ public:
 
 			/*auto ret = ::WSASend(_mSock, &buf, buf.len, )*/
 		}
+	}
+
+	void OnReceived()
+	{
+
 	}
 
 private:

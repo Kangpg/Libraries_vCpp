@@ -39,6 +39,8 @@ public:
 		return *this;
 	}
 
+	BYTE* GetHeadPos() { return &_mBuf[_mHead]; }
+
 private:
 	uint32	_mHead		= 0;
 	uint32	_mRear		= 0;

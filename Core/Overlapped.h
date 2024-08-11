@@ -29,7 +29,9 @@ public:
 	eFLAG	_mFlag = eFLAG::eNone;
 };
 
-class IocpEvent
+class COverlappedObject
 {
-
+public:
+	COverlappedObject() = default;
+	~COverlappedObject() = default;
 };

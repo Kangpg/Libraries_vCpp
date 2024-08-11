@@ -14,5 +14,7 @@ int main()
 
 	gameserver.Start();
 
+	// TODO : Do worker threads using threadmanager
+
 	return 0;
 }

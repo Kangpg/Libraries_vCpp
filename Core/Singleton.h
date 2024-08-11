@@ -35,7 +35,7 @@ public:
 	{
 		call_once(_mFlag, []()
 			{
-				_mInstance = s:make_shared<_Ty>();
+				_mInstance = make_shared<_Ty>();
 			});
 
 		return _mInstance;

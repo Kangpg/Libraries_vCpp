@@ -145,7 +145,6 @@
     <ClInclude Include="Acceptor.h" />
     <ClInclude Include="Iocp.h" />
     <ClInclude Include="JsonParser.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="Noncopyable.h" />
     <ClInclude Include="ObjectFactory.h" />
     <ClInclude Include="Overlapped.h" />
@@ -153,11 +152,13 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Session.h" />
+    <ClInclude Include="SessionManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Socket.h" />
     <ClInclude Include="StreamingBuffer.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="TaskPool.h" />
+    <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinNetwork.h" />
@@ -178,11 +179,13 @@
     </ClCompile>
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="SessionManager.cpp" />
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Socket.cpp" />
     <ClCompile Include="StreamingBuffer.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="TaskPool.cpp" />
+    <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinNetwork.cpp" />
   </ItemGroup>
