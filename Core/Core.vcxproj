@@ -150,6 +150,7 @@
     <ClInclude Include="Overlapped.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Protocol.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Session.h" />
     <ClInclude Include="SessionManager.h" />
