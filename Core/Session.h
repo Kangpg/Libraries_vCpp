@@ -1,8 +1,8 @@
 #pragma once
 
 #include "pch.h"
+#include "Acceptor.h"
 #include "StreamingBuffer.h"
-#include "Overlapped.h"
 
 class CSndBuffer
 {
@@ -14,7 +14,7 @@ private:
 	::WSABUF _mBuff;
 };
 
-class CSession : public COverlapped
+class CSession
 {
 	friend class CServer;
 
@@ -46,6 +46,11 @@ public:
 private:
 	mutex									_mMutex;
 	SOCKET									_mSock = INVALID_SOCKET;
+
+	CConnector								_mConnector;
+	CDisConnector							_mDIsConnector;
+	CSender									_mSender;
+	CReceiver								_mReceiver;
 
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mRecvBuf;
 	

@@ -1,8 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "session.h"
-#include "Singleton.h"
+#include "Session.h"
 #include "ObjectFactory.h"
 
 class CSessionManager

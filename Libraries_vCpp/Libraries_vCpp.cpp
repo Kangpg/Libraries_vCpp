@@ -3,6 +3,7 @@
 
 #include "GameServer.h"
 #include "../Core/WinNetwork.h"
+#include "../Core/ThreadManager.h"
 
 #pragma comment(lib, "../x64/Debug/Core.lib")
 
@@ -14,7 +15,13 @@ int main()
 
 	gameserver.Start();
 
-	// TODO : Do worker threads using threadmanager
+	CThreadManager::GetInstance().Async([&]()
+		{
+			while (true)
+			{
+				gameserver.Process();
+			}
+		});
 
 	return 0;
 }

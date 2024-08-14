@@ -1,11 +1,10 @@
 #pragma once
 
 #include "pch.h"
-#include "ObjectFactory.h"
-#include "Session.h"
 #include "Socket.h"
 #include "Iocp.h"
 #include "SessionManager.h"
+#include "Acceptor.h"
 
 #define dfDEFAULT_SESSION_CNT 10
 
@@ -33,40 +32,42 @@ public:
 public:
 	virtual bool Start()
 	{
-		if (_mAcceptor = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mAcceptor == INVALID_SOCKET)
+		if (_mSock = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mSock == INVALID_SOCKET)
 			return false;
 
-		if (!_mIocp.RegistHandle(reinterpret_cast<HANDLE>(_mAcceptor)))
+		if (!_mIocp.RegistHandle(reinterpret_cast<HANDLE>(_mSock)))
 			return false;
 
 		LINGER linger;
 		linger.l_onoff = 0;
 		linger.l_linger = 0;
-		if (!CSocket::SetSocketOpt<LINGER>(_mAcceptor, SO_LINGER, linger))
+		if (!CSocket::SetSocketOpt<LINGER>(_mSock, SO_LINGER, linger))
 			return false;
 
-		if (!CSocket::SetSocketOpt<bool>(_mAcceptor, SO_REUSEADDR, true))
+		if (!CSocket::SetSocketOpt<bool>(_mSock, SO_REUSEADDR, true))
 			return false;
 
-		if (!CSocket::Bind(_mAcceptor, _mAddress))
+		if (!CSocket::Bind(_mSock, _mAddress))
 			return false;
 
-		if (!CSocket::Listen(_mAcceptor, SOMAXCONN))
+		if (!CSocket::Listen(_mSock, SOMAXCONN))
 			return false;
 
 		auto maxCnt = _mSessionManager.GetMaxSessionCnt();
 		for (auto idx = 0; idx < maxCnt; ++idx)
 		{
-			auto accpetOverlapped = make_shared<COverlapped>(COverlapped::eFLAG::eAccept);
-			_mOverlappedList.push_back(accpetOverlapped);
-
 			auto session = _mSessionManager.CreateSession();
+
+			CAcceptor* acceptEvent = new CAcceptor();
+			acceptEvent->SetSession(session);
+
+			_mOverlappedList.push_back(reinterpret_cast<COverlapped*>(acceptEvent));
 
 			// Reg iocp
 			_mIocp.RegistHandle(reinterpret_cast<HANDLE>(session->GetSocket()));
 
 			DWORD bytes = 0;
-			if (!CSocket::AcceptEx(_mAcceptor, session->GetSocket(), session->_mRecvBuf.GetHeadPos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, static_cast<LPOVERLAPPED>(accpetOverlapped.get())))
+			if (!CSocket::AcceptEx(_mSock, session->GetSocket(), session->_mRecvBuf.GetHeadPos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, static_cast<LPOVERLAPPED>(acceptEvent)))
 			{
 				if (WSA_IO_PENDING == ::WSAGetLastError())
 				{
@@ -79,6 +80,11 @@ public:
 		return true;
 	}
 
+	void Process()
+	{
+		_mIocp.Process();
+	}
+
 	virtual bool End()
 	{
 		return false;
@@ -86,10 +92,10 @@ public:
 
 private:
 	SOCKADDR_IN									_mAddress = {};
-	SOCKET										_mAcceptor = INVALID_SOCKET;
+	SOCKET										_mSock = INVALID_SOCKET;
 	CIocp										_mIocp;
 
-	vector<shared_ptr<COverlapped>>				_mOverlappedList;
+	vector<COverlapped*>						_mOverlappedList;
 	CSessionManager								_mSessionManager;
 };
 

@@ -21,7 +21,7 @@ public:
 		return ::CreateIoCompletionPort(regHandle, _mIocp, reinterpret_cast<ULONG_PTR>(regHandle), 0);
 	}
 	
-	bool Process(const uint32 timeout)
+	bool Process(const uint32 timeout = INFINITE)
 	{
 		DWORD numOfBytes = 0;
 		ULONG_PTR key = 0;
@@ -29,21 +29,9 @@ public:
 
 		if (::GetQueuedCompletionStatus(_mIocp, &numOfBytes, &key, reinterpret_cast<LPOVERLAPPED*>(&overlapped), timeout))
 		{
-			// TODO : iocp 이벤트 객체를 session, acceptor 둘다 상속받게 수정필요
-			switch (overlapped->GetOverFlag())
+			if (overlapped != nullptr)
 			{
-			case COverlapped::eFLAG::eConnect:
-				break;
-			case COverlapped::eFLAG::eDisconnect:
-				break;
-			case COverlapped::eFLAG::eSend:
-				break;
-			case COverlapped::eFLAG::eReceive:
-				break;
-			case COverlapped::eFLAG::eAccept:
-				break;
-			default:
-				break;
+				overlapped->PacketProcess();
 			}
 		}
 

@@ -2,7 +2,7 @@
 
 #include "pch.h"
 
-class COverlapped : public ::OVERLAPPED
+class COverlapped abstract : public ::OVERLAPPED
 {
 public:
 	enum class eFLAG
@@ -25,13 +25,8 @@ public:
 	eFLAG	GetOverFlag() const { return _mFlag; }
 	void	SetOverFlag(const eFLAG flag) { _mFlag = flag; }
 
+	virtual void PacketProcess() abstract;
+
 public:
 	eFLAG	_mFlag = eFLAG::eNone;
-};
-
-class COverlappedObject
-{
-public:
-	COverlappedObject() = default;
-	~COverlappedObject() = default;
 };
