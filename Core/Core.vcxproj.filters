@@ -63,9 +63,6 @@
     <ClInclude Include="Socket.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Acceptor.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Iocp.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -79,6 +76,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Protocol.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Acceptor.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="EventObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,9 +128,6 @@
     <ClCompile Include="Socket.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Acceptor.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Iocp.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -138,6 +138,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SessionManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Acceptor.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="EventObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

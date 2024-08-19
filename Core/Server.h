@@ -5,6 +5,7 @@
 #include "Iocp.h"
 #include "SessionManager.h"
 #include "Acceptor.h"
+#include "Utils.h"
 
 #define dfDEFAULT_SESSION_CNT 10
 
@@ -59,7 +60,7 @@ public:
 			auto session = _mSessionManager.CreateSession();
 
 			CAcceptor* acceptEvent = new CAcceptor();
-			acceptEvent->SetSession(session);
+			acceptEvent->Set(session, _mSock);
 
 			_mOverlappedList.push_back(reinterpret_cast<COverlapped*>(acceptEvent));
 
@@ -71,8 +72,11 @@ public:
 			{
 				if (WSA_IO_PENDING == ::WSAGetLastError())
 				{
-					// TODO : Try callback
-					return false;
+					continue;
+				}
+				else
+				{
+					PrintWSAError("AcceptEx");
 				}
 			}
 		}
@@ -82,7 +86,7 @@ public:
 
 	void Process()
 	{
-		_mIocp.Process();
+		_mIocp.Process(10);
 	}
 
 	virtual bool End()

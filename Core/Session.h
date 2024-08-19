@@ -1,7 +1,8 @@
 #pragma once
 
 #include "pch.h"
-#include "Acceptor.h"
+#include "EventObject.h"
+#include "Socket.h"
 #include "StreamingBuffer.h"
 
 class CSndBuffer
@@ -24,7 +25,14 @@ class CSession
 	};
 
 public:
-	CSession() = default;
+	CSession()
+	{
+		_mSock = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED);
+		if (_mSock == INVALID_SOCKET)
+		{
+			runtime_error("CSocket::CreateSocket");
+		}
+	}
 	virtual ~CSession() = default;
 
 	SOCKET GetSocket() const { return _mSock; }
@@ -46,6 +54,7 @@ public:
 private:
 	mutex									_mMutex;
 	SOCKET									_mSock = INVALID_SOCKET;
+	SOCKADDR_IN								_mAddress = {};
 
 	CConnector								_mConnector;
 	CDisConnector							_mDIsConnector;

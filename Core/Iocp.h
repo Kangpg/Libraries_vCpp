@@ -34,6 +34,10 @@ public:
 				overlapped->PacketProcess();
 			}
 		}
+		else
+		{
+			
+		}
 
 		return true;
 	}

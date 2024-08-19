@@ -20,7 +20,7 @@ SOCKET CSocket::CreateSocket(DWORD ioflag)
     return sock;
 }
 
-void CSocket::CloseSocket(SOCKET& sock)
+void CSocket::CloseSocket(SOCKET sock)
 {
     if (INVALID_SOCKET != sock)
         ::closesocket(sock);
@@ -28,7 +28,7 @@ void CSocket::CloseSocket(SOCKET& sock)
     sock = INVALID_SOCKET;
 }
 
-bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
+bool CSocket::Bind(SOCKET sock, const wchar_t* ip, const uint16 port)
 {
     if (sock == INVALID_SOCKET)
         return false;
@@ -57,7 +57,7 @@ bool CSocket::Bind(SOCKET& sock, const wchar_t* ip, const uint16 port)
     return true;
 }
 
-bool CSocket::Bind(SOCKET& sock, SOCKADDR_IN address)
+bool CSocket::Bind(SOCKET sock, SOCKADDR_IN address)
 {
     if (sock == INVALID_SOCKET)
         return false;
@@ -72,7 +72,7 @@ bool CSocket::Bind(SOCKET& sock, SOCKADDR_IN address)
     return true;
 }
 
-bool CSocket::Listen(SOCKET& sock, const int blog/*= SOMAXCONN*/)
+bool CSocket::Listen(SOCKET sock, const int blog/*= SOMAXCONN*/)
 {
     if (SOCKET_ERROR == ::listen(sock, blog))
     {
