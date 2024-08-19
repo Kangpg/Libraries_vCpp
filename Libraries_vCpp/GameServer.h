@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Types.h"
+#include "pch.h"
 #include "../Core/Server.h"
 
 class CGameServer : public CServer
@@ -22,6 +22,6 @@ public:
 	{
 		return __super::End();
 	}
-
+	
 private:
 };
