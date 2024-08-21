@@ -12,94 +12,26 @@
 class CServer
 {
 public:
-	CServer()
-		: _mSessionManager(dfDEFAULT_SESSION_CNT)
-	{
-		_mOverlappedList.clear();
-	}
-	CServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
-		: _mSessionManager(sessionCnt)
-	{
-		_mOverlappedList.clear();
-
-		ZeroMemory(&_mAddress, sizeof(_mAddress));
-		_mAddress.sin_family = AF_INET;
-		_mAddress.sin_port = ::htons(port);
-
-		::InetPtonW(AF_INET, ip.c_str(), &_mAddress.sin_addr);
-	}
-	~CServer() = default;
+	CServer();
+	CServer(const wstring ip, const uint16 port, const uint16 sessionCnt);
+	~CServer();
 
 public:
-	virtual bool Start()
-	{
-		if (_mSock = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED), _mSock == INVALID_SOCKET)
-			return false;
+	virtual bool	Start();
+	virtual bool	End();
 
-		if (!_mIocp.RegistHandle(reinterpret_cast<HANDLE>(_mSock)))
-			return false;
-
-		LINGER linger;
-		linger.l_onoff = 0;
-		linger.l_linger = 0;
-		if (!CSocket::SetSocketOpt<LINGER>(_mSock, SO_LINGER, linger))
-			return false;
-
-		if (!CSocket::SetSocketOpt<bool>(_mSock, SO_REUSEADDR, true))
-			return false;
-
-		if (!CSocket::Bind(_mSock, _mAddress))
-			return false;
-
-		if (!CSocket::Listen(_mSock, SOMAXCONN))
-			return false;
-
-		auto maxCnt = _mSessionManager.GetMaxSessionCnt();
-		for (auto idx = 0; idx < maxCnt; ++idx)
-		{
-			auto session = _mSessionManager.CreateSession();
-
-			CAcceptor* acceptEvent = new CAcceptor();
-			acceptEvent->Set(session, _mSock);
-
-			_mOverlappedList.push_back(reinterpret_cast<COverlapped*>(acceptEvent));
-
-			// Reg iocp
-			_mIocp.RegistHandle(reinterpret_cast<HANDLE>(session->GetSocket()));
-
-			DWORD bytes = 0;
-			if (!CSocket::AcceptEx(_mSock, session->GetSocket(), session->_mRecvBuf.GetHeadPos(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &bytes, static_cast<LPOVERLAPPED>(acceptEvent)))
-			{
-				if (WSA_IO_PENDING == ::WSAGetLastError())
-				{
-					continue;
-				}
-				else
-				{
-					PrintWSAError("AcceptEx");
-				}
-			}
-		}
-
-		return true;
-	}
-
-	void Process()
-	{
-		_mIocp.Process(10);
-	}
-
-	virtual bool End()
-	{
-		return false;
-	}
+	void			Process();
 
 private:
 	SOCKADDR_IN									_mAddress = {};
 	SOCKET										_mSock = INVALID_SOCKET;
 	CIocp										_mIocp;
 
+#ifdef _WIN32
+	vector<COverlapped*, tbb_allocator<COverlapped*>>	_mOverlappedList;
+#else
 	vector<COverlapped*>						_mOverlappedList;
+#endif //_WIN32
 	CSessionManager								_mSessionManager;
 };
 

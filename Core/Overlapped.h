@@ -19,14 +19,14 @@ public:
 	};
 
 public:
-	explicit COverlapped(eFLAG flag = eFLAG::eNone) : _mFlag(flag) {}
+	explicit COverlapped(eFLAG flag = eFLAG::eNone);
 	virtual ~COverlapped() = default;
 
-	eFLAG	GetOverFlag() const { return _mFlag; }
-	void	SetOverFlag(const eFLAG flag) { _mFlag = flag; }
+	eFLAG	GetOverFlag() const;
+	void	SetOverFlag(const eFLAG flag);
 
 	virtual void PacketProcess() abstract;
 
-public:
+protected:
 	eFLAG	_mFlag = eFLAG::eNone;
 };

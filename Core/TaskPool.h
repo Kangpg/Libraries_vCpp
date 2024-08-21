@@ -4,6 +4,9 @@
 
 #define dfDEFAULT_TASK_POOL_SIZE 2
 
+/// <summary>
+/// CTaskPool class
+/// </summary>
 template <size_t size = dfDEFAULT_TASK_POOL_SIZE>
 class CTaskPool
 {
@@ -21,11 +24,13 @@ private:
 	void Run();
 
 private:
-	mutex							_mMutex;
-	queue<function<void()>>			_mTaskQueue;
-	array<thread, size>				_mManagedThreads;
-	condition_variable				_mCv;
-	bool							_mStop = false;
+	std::mutex										_mMutex;
+
+	queue<function<void()>>							_mTaskQueue;
+	array<thread, size>								_mManagedThreads;
+
+	condition_variable								_mCv;
+	bool											_mStop = false;
 };
 
 template <size_t size>
@@ -57,7 +62,7 @@ inline constexpr size_t CTaskPool<size>::GetMaxSize() const
 template <size_t size>
 inline constexpr size_t CTaskPool<size>::GetUsedSize() const
 {
-	lock_guard<mutex> lock(_mMutex);
+	lock_guard<std::mutex> lock(_mMutex);
 	return _mTaskQueue.size();
 }
 
@@ -68,7 +73,7 @@ future<_Invoke_result_t<decay_t<_Func>, decay_t<_Args>...>> CTaskPool<size>::Pus
 	auto task = make_shared<packaged_task<_Invoke_result_t<decay_t<_Func>, decay_t<_Args>...>()>>(bind(forward<_Func>(func), forward<_Args>(args)...));
 	auto fut = task->get_future();
 
-	lock_guard<mutex> lock(_mMutex);
+	lock_guard<std::mutex> lock(_mMutex);
 	_mTaskQueue.push([task = task]()->void { (*task)(); });
 
 	_mCv.notify_one();
@@ -81,7 +86,7 @@ void CTaskPool<size>::Run()
 {
 	while (!_mStop)
 	{
-		unique_lock<mutex> lock(_mMutex);
+		unique_lock<std::mutex> lock(_mMutex);
 		_mCv.wait(lock, [this]()->bool { return !_mTaskQueue.empty() || _mStop; });
 
 		if (_mStop && _mTaskQueue.empty())

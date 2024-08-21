@@ -5,31 +5,31 @@
 class CConnector : public COverlapped
 {
 public:
-	CConnector() : COverlapped(COverlapped::eFLAG::eConnect) {}
+	CConnector();
 
-	virtual void PacketProcess() override {};
+	virtual void PacketProcess() override;
 };
 
 class CDisConnector : public COverlapped
 {
 public:
-	CDisConnector() : COverlapped(COverlapped::eFLAG::eDisconnect) {}
+	CDisConnector();
 
-	virtual void PacketProcess() override {};
+	virtual void PacketProcess() override;
 };
 
 class CSender : public COverlapped
 {
 public:
-	CSender() : COverlapped(COverlapped::eFLAG::eSend) {}
+	CSender();
 
-	virtual void PacketProcess() override {};
+	virtual void PacketProcess() override;
 };
 
 class CReceiver : public COverlapped
 {
 public:
-	CReceiver() : COverlapped(COverlapped::eFLAG::eReceive) {}
+	CReceiver();
 
-	virtual void PacketProcess() override {};
+	virtual void PacketProcess() override;
 };

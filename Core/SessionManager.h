@@ -7,46 +7,27 @@
 class CSessionManager
 {
 public:
-	CSessionManager(const uint16 sessionCnt)
-	{
-		_mSessionFactory.Init(sessionCnt);
-	}
-	~CSessionManager() = default;
+	CSessionManager(const uint16 sessionCnt);
 
-	shared_ptr<CSession> CreateSession()
-	{
-		// The caller needs to do a nullptr check outside the function or using runtime error
-		return _mSessionFactory.GetFactoryObject();
-	}
+	shared_ptr<CSession>	CreateSession();
 
-	void DeleteSession(shared_ptr<CSession> session)
-	{
-		_mSessionFactory.ReturnFactoryObject(session);
-	}
+	void					DeleteSession(shared_ptr<CSession> session);
+	bool					RegistSession(shared_ptr<CSession> session);
+	void					UnRegistSession(shared_ptr<CSession> session);
 
-	bool RegistSession(shared_ptr<CSession> session)
-	{
-		lock_guard<shared_mutex> lock(_mMutex);
-		return (_mSessionList.insert({ session->GetSocket(), session })).second;
-	}
-
-	void UnRegistSession(shared_ptr<CSession> session)
-	{
-		lock_guard<shared_mutex> lock(_mMutex);
-		_mSessionList.erase(session->GetSocket());
-	}
-
-	const uint16 GetMaxSessionCnt() const { return _mSessionFactory.GetMaxObjectCnt(); }
-
-	shared_ptr<CSession> GetSession(SOCKET& socket)
-	{
-		auto itr = _mSessionList.find(socket);
-		return itr != _mSessionList.end() ? itr->second : shared_ptr<CSession>();
-	}
+	const uint16			GetMaxSessionCnt() const;
+	shared_ptr<CSession>	GetSession(SOCKET& socket);
 
 private:
-	shared_mutex								_mMutex;
-	unordered_map<SOCKET, shared_ptr<CSession>> _mSessionList;
+	mutable shared_mutex	_mMutex;
+
+#ifdef _WIN32
+	unordered_map<SOCKET, shared_ptr<CSession>
+		, hash<SOCKET>, equal_to<SOCKET>
+		, tbb_allocator<pair<const SOCKET, shared_ptr<CSession>>>>	_mSessionList;
+#else
+	unordered_map<SOCKET, shared_ptr<CSession>>					_mSessionList;
+#endif //_WIN32
 
 	CObjectFactoryLazy<CSession>				_mSessionFactory;
 };

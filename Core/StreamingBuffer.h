@@ -14,30 +14,22 @@ public:
 
 	void Clear();
 
-	bool IsEmpty()		const;
-	bool IsFull()		const;
-	int32 GetUsable()	const;
-	int32 GetUsed()		const;
+	bool	IsEmpty()		const;
+	bool	IsFull()		const;
+	int32	GetUsable()		const;
+	int32	GetUsed()		const;
 
 	template <typename _Ty>
 	bool Push(__in const _Ty* src, __in uint32 size);
 
 	template <typename _Ty>
-	CStreamingBuffer& operator << (__in const _Ty* src)
-	{
-		Push(src, sizeof(_Ty));
-		return *this;
-	}
+	CStreamingBuffer& operator << (__in const _Ty* src);
 
 	template <typename _Ty>
 	bool Pop(__out _Ty* dest, __in uint32 size);
 
 	template <typename _Ty>
-	CStreamingBuffer& operator >> (__out _Ty* dest) 
-	{ 
-		Pop(dest, sizeof(_Ty)); 
-		return *this;
-	}
+	CStreamingBuffer& operator >> (__out _Ty* dest);
 
 	BYTE* GetHeadPos() { return &_mBuf[_mHead]; }
 
@@ -46,7 +38,7 @@ private:
 	uint32	_mRear		= 0;
 	uint32	_mUsed		= 0;
 
-	byte	_mBuf[SIZE] = { 0, };
+	BYTE	_mBuf[SIZE] = { 0, };
 };
 
 template<size_t SIZE>
@@ -95,11 +87,19 @@ inline bool CStreamingBuffer<SIZE>::Push(const _Ty* src, uint32 size)
 	if (IsFull() || GetUsable() < size)
 		return false;
 
-	::memcpy(&_mBuf[_mHead], reinterpret_cast<const byte*>(src), size);
+	::memcpy(&_mBuf[_mHead], reinterpret_cast<const BYTE*>(src), size);
 	_mHead = (_mHead + size) % SIZE;
 	_mUsed += size;
 
 	return true;
+}
+
+template <size_t SIZE>
+template <typename _Ty>
+CStreamingBuffer<SIZE>& CStreamingBuffer<SIZE>::operator << (__in const _Ty* src)
+{
+	Push(src, sizeof(_Ty));
+	return *this;
 }
 
 template<size_t SIZE>
@@ -112,9 +112,17 @@ inline bool CStreamingBuffer<SIZE>::Pop(_Ty* dest, uint32 size)
 	if (IsEmpty() || _mUsed < size)
 		return false;
 
-	::memcpy(reinterpret_cast<byte*>(dest), &_mBuf[_mRear], size);
+	::memcpy(reinterpret_cast<BYTE*>(dest), &_mBuf[_mRear], size);
 	_mRear = (_mRear + size) % SIZE;
 	_mUsed -= size;
 
 	return false;
+}
+
+template <size_t SIZE>
+template <typename _Ty>
+CStreamingBuffer<SIZE>& CStreamingBuffer<SIZE>::operator >> (__out _Ty* dest)
+{
+	Pop(dest, sizeof(_Ty));
+	return *this;
 }

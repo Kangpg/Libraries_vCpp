@@ -25,36 +25,21 @@ class CSession
 	};
 
 public:
-	CSession()
-	{
-		_mSock = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED);
-		if (_mSock == INVALID_SOCKET)
-		{
-			runtime_error("CSocket::CreateSocket");
-		}
-	}
-	virtual ~CSession() = default;
+	CSession();
+	~CSession();
 
-	SOCKET GetSocket() const { return _mSock; }
+	SOCKET GetSocket() const;
 
-	void SendPacket(::WSABUF& buf)
-	{
-		{
-			lock_guard<mutex> lock(_mMutex);
+	void SendPacket(::WSABUF& buf);
 
-			/*auto ret = ::WSASend(_mSock, &buf, buf.len, )*/
-		}
-	}
-
-	void OnReceived()
-	{
-
-	}
+	void OnReceived();
+	void OnConnected();
+	void OnDisconnected();
 
 private:
-	mutex									_mMutex;
-	SOCKET									_mSock = INVALID_SOCKET;
-	SOCKADDR_IN								_mAddress = {};
+	mutable std::mutex						_mMutex;
+	SOCKET									_mSock			= INVALID_SOCKET;
+	SOCKADDR_IN								_mAddress		= {};
 
 	CConnector								_mConnector;
 	CDisConnector							_mDIsConnector;

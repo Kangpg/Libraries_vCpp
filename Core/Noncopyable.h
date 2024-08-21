@@ -4,7 +4,7 @@ class CNoncopyable
 {
 protected:
 	CNoncopyable() = default;
-	~CNoncopyable() = default;
+	virtual ~CNoncopyable() = default;
 
 public:
 	CNoncopyable(const CNoncopyable&)					= delete;
