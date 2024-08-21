@@ -74,6 +74,10 @@
     <IncludePath>$(SolutionDir)\ThirdParty\tbb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\ThirdParty\tbb;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)\ThirdParty\tbb\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\ThirdParty\tbb;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -134,6 +138,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>

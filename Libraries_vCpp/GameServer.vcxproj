@@ -75,6 +75,10 @@
     <IncludePath>$(SolutionDir)ThirdParty\protobuf\include;$(SolutionDir)ThirdParty\tbb\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)ThirdParty\protobuf;$(SolutionDir)ThirdParty\tbb;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)ThirdParty\protobuf\include;$(SolutionDir)\ThirdParty\tbb\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ThirdParty\protobuf;$(SolutionDir)\ThirdParty\tbb;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -127,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
