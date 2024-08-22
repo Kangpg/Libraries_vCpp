@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Overlapped.h"
+#include "EventObject.h"
 
 class CIocp
 {
@@ -18,20 +18,21 @@ public:
 
 	bool RegistHandle(const HANDLE& regHandle)
 	{
-		return ::CreateIoCompletionPort(regHandle, _mIocp, reinterpret_cast<ULONG_PTR>(regHandle), 0);
+		return ::CreateIoCompletionPort(regHandle, _mIocp, 0, 0);
 	}
 	
 	bool Process(const uint32 timeout = INFINITE)
 	{
-		DWORD numOfBytes = 0;
+		DWORD bytes = 0;
 		ULONG_PTR key = 0;
-		COverlapped* overlapped = nullptr;
+		LPOVERLAPPED overlapped = nullptr;
 
-		if (::GetQueuedCompletionStatus(_mIocp, &numOfBytes, &key, reinterpret_cast<LPOVERLAPPED*>(&overlapped), timeout))
+		if (::GetQueuedCompletionStatus(_mIocp, &bytes, &key, &overlapped, timeout))
 		{
 			if (overlapped != nullptr)
 			{
-				overlapped->PacketProcess();
+				auto customOverlapped = static_cast<COverlapped*>(overlapped);
+				customOverlapped->PacketProcess(bytes);
 			}
 		}
 		else

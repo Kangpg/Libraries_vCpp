@@ -149,7 +149,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Acceptor.h" />
     <ClInclude Include="EventObject.h" />
     <ClInclude Include="Iocp.h" />
     <ClInclude Include="JsonParser.h" />
@@ -173,7 +172,6 @@
     <ClInclude Include="WinNetwork.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Acceptor.cpp" />
     <ClCompile Include="EventObject.cpp" />
     <ClCompile Include="Iocp.cpp" />
     <ClCompile Include="JsonParser.cpp" />

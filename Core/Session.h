@@ -5,19 +5,10 @@
 #include "Socket.h"
 #include "StreamingBuffer.h"
 
-class CSndBuffer
-{
-public:
-	CSndBuffer() = default;
-	~CSndBuffer() = default;
-
-private:
-	::WSABUF _mBuff;
-};
-
-class CSession
+class CSession : public enable_shared_from_this<CSession>
 {
 	friend class CServer;
+	friend class CAcceptor;
 
 	enum 
 	{
@@ -32,7 +23,7 @@ public:
 
 	void SendPacket(::WSABUF& buf);
 
-	void OnReceived();
+	void OnReceived(DWORD recvBytes);
 	void OnConnected();
 	void OnDisconnected();
 
@@ -42,11 +33,10 @@ private:
 	SOCKADDR_IN								_mAddress		= {};
 
 	CConnector								_mConnector;
-	CDisConnector							_mDIsConnector;
+	CDisConnector							_mDisConnector;
 	CSender									_mSender;
 	CReceiver								_mReceiver;
 
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mRecvBuf;
-	
 };
 

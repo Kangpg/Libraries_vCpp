@@ -19,6 +19,9 @@ public:
 	int32	GetUsable()		const;
 	int32	GetUsed()		const;
 
+	bool	MoveHead(int32 moved);
+	bool	MoveRear(int32 moved);
+
 	template <typename _Ty>
 	bool Push(__in const _Ty* src, __in uint32 size);
 
@@ -75,6 +78,28 @@ template<size_t SIZE>
 inline int32 CStreamingBuffer<SIZE>::GetUsed() const
 {
 	return _mUsed;
+}
+
+template<size_t SIZE>
+bool CStreamingBuffer<SIZE>::MoveHead(int32 moved)
+{
+	if (GetUsable() < moved)
+		return false;
+
+	_mHead = (_mHead + moved) % SIZE;
+	_mUsed += moved;
+	return true;
+}
+
+template<size_t SIZE>
+bool CStreamingBuffer<SIZE>::MoveRear(int32 moved)
+{
+	if (GetUsed() < moved)
+		return false;
+
+	_mRear = (_mRear + moved) % SIZE;
+	_mUsed -= moved;
+	return true;
 }
 
 template<size_t SIZE>
