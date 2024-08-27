@@ -45,4 +45,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Protocol.proto">
+      <Filter>Protocol</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -27,11 +27,19 @@ SOCKET CSession::GetSocket() const
 
 void CSession::SendPacket(::WSABUF& buf)
 {
+	if (_mSendBuf.IsEmpty())
+		return;
+	
+	DWORD bytes = 0;
+	if (SOCKET_ERROR == ::WSASend(_mSock, &buf, buf.len, &bytes, 0, &_mSender, nullptr))
 	{
-		lock_guard<std::mutex> lock(_mMutex);
-
-		/*auto ret = ::WSASend(_mSock, &buf, buf.len, )*/
+		if (::WSAGetLastError() != WSA_IO_PENDING)
+		{
+			::runtime_error("WSASend");
+		}
 	}
+
+	_mSendBuf.MoveRear(buf.len);
 }
 
 void CSession::OnReceived(DWORD recvBytes)

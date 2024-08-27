@@ -1,0 +1,7 @@
+syntax = "proto3";
+package Protocol;
+
+message PACKET_SC_CHAT
+{
+	bool success = 1;
+}

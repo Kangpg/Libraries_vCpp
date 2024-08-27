@@ -38,5 +38,6 @@ private:
 	CReceiver								_mReceiver;
 
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mRecvBuf;
+	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mSendBuf;
 };
 

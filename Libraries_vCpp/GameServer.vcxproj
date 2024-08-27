@@ -160,6 +160,9 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Protocol.pb.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Protocol.proto" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
