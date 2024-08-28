@@ -27,8 +27,7 @@ void CAcceptor::PacketProcess(DWORD recvBytes)
 
 	_mSession->OnConnected();
 
-	// 세션 등록 후 다시 Accept
-	_mServer->_mSessionManager.RegistSession(_mSession);
+	// TODO : 세션 등록 후 다시 Accept
 
 	// TODO : 함수화
 	if (!AcceptSocket())

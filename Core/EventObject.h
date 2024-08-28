@@ -4,6 +4,7 @@
 #include "Overlapped.h"
 
 class CSession;
+
 class CServer;
 class CAcceptor : public COverlapped
 {
@@ -18,9 +19,9 @@ public:
 	bool			AcceptSocket();
 
 private:
-	shared_ptr<CServer>		_mServer;
-	shared_ptr<CSession>	_mSession;
-	SOCKET					_mListenSock = INVALID_SOCKET;
+	shared_ptr<CServer>					_mServer;
+	shared_ptr<CSession>				_mSession;
+	SOCKET								_mListenSock = INVALID_SOCKET;
 };
 
 class CConnector : public COverlapped

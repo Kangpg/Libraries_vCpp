@@ -153,12 +153,14 @@
     <ClCompile Include="Protocol.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ServerSession.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameServer.h" />
     <ClInclude Include="PacketHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Protocol.pb.h" />
+    <ClInclude Include="ServerSession.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Protocol.proto" />

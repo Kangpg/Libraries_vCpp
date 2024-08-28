@@ -1,41 +1,35 @@
 #include "pch.h"
 #include "SessionManager.h"
 
-CSessionManager::CSessionManager(const uint16 sessionCnt)
+CSessionManager::CSessionManager(const uint16 sessionCnt, function<shared_ptr<CSession>()> func)
+	: _mMaxSessionCnt(sessionCnt)
 {
-	_mSessionFactory.Init(sessionCnt);
+	for (auto idx = 0; idx < _mMaxSessionCnt; ++idx)
+	{
+		shared_ptr<CSession> session = func();
+		_mSessionList.push_back(session);
+	}
 }
 
 shared_ptr<CSession> CSessionManager::CreateSession()
 {
+	if (!_mSessionList.empty())
+	{
+		auto session = _mSessionList.front();
+		_mSessionList.pop_front();
+		return session;
+	}
+
 	// The caller needs to do a nullptr check outside the function or using runtime error
-	return _mSessionFactory.GetFactoryObject();
+	return shared_ptr<CSession>();
 }
 
 void CSessionManager::DeleteSession(shared_ptr<CSession> session)
 {
-	_mSessionFactory.ReturnFactoryObject(session);
+	_mSessionList.push_back(session);
 }
 
-bool CSessionManager::RegistSession(shared_ptr<CSession> session)
+const uint16 CSessionManager::GetMaxSessionCnt() const
 {
-	lock_guard<shared_mutex> lock(_mMutex);
-	return (_mSessionList.insert({ session->GetSocket(), session })).second;
-}
-
-void CSessionManager::UnRegistSession(shared_ptr<CSession> session)
-{
-	lock_guard<shared_mutex> lock(_mMutex);
-	_mSessionList.erase(session->GetSocket());
-}
-
-const uint16 CSessionManager::GetMaxSessionCnt() const 
-{ 
-	return _mSessionFactory.GetMaxObjectCnt();
-}
-
-shared_ptr<CSession> CSessionManager::GetSession(SOCKET& socket)
-{
-	auto itr = _mSessionList.find(socket);
-	return itr != _mSessionList.end() ? itr->second : shared_ptr<CSession>();
+	return _mMaxSessionCnt;
 }

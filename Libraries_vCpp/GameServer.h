@@ -3,11 +3,11 @@
 #include "pch.h"
 #include "../Core/Server.h"
 
-class CGameServer : public CServer
+class CGameServer final : public CServer
 {
 public:
-	CGameServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
-		: CServer(ip, port, sessionCnt)
+	CGameServer(const wstring ip, const uint16 port, function<shared_ptr<CSession>()> func, const uint16 sessionCnt)
+		: CServer(ip, port, func, sessionCnt)
 	{
 		
 	}

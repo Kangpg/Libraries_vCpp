@@ -14,8 +14,8 @@ class CServer : public enable_shared_from_this<CServer>
 
 public:
 	CServer();
-	CServer(const wstring ip, const uint16 port, const uint16 sessionCnt);
-	~CServer();
+	CServer(const wstring ip, const uint16 port, function<shared_ptr<CSession>()> func, const uint16 sessionCnt);
+	virtual ~CServer();
 
 public:
 	virtual bool	Start();
@@ -35,4 +35,3 @@ private:
 #endif //_WIN32
 	CSessionManager								_mSessionManager;
 };
-

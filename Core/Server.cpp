@@ -2,13 +2,13 @@
 #include "Server.h"
 
 CServer::CServer()
-	: _mSessionManager(dfDEFAULT_SESSION_CNT)
+	: _mSessionManager(dfDEFAULT_SESSION_CNT, []() { return make_shared<CSession>(); })
 {
 	_mAcceptorList.clear();
 }
 
-CServer::CServer(const wstring ip, const uint16 port, const uint16 sessionCnt)
-	: _mSessionManager(sessionCnt)
+CServer::CServer(const wstring ip, const uint16 port, function<shared_ptr<CSession>()> func, const uint16 sessionCnt)
+	: _mSessionManager(sessionCnt, func)
 {
 	_mAcceptorList.clear();
 
@@ -53,7 +53,7 @@ bool CServer::Start()
 		CAcceptor* acceptor = new CAcceptor(shared_from_this(), _mListenSock);
 		_mAcceptorList.push_back(reinterpret_cast<COverlapped*>(acceptor));
 
-		if(!acceptor->AcceptSocket())
+		if (!acceptor->AcceptSocket())
 			::runtime_error("AcceptSocket");
 	}
 

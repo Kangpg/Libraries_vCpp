@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "GameServer.h"
+#include "ServerSession.h"
 
 int main()
 {
 	CWinNetwork net;
 
-	CGameServer gameserver(L"127.0.0.1", 7777, 1000);
+	CGameServer gameserver(L"127.0.0.1", 7777, []() { return make_shared<CServerSession>(); }, 1000);
 
 	gameserver.Start();
 

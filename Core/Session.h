@@ -7,7 +7,6 @@
 
 class CSession : public enable_shared_from_this<CSession>
 {
-	friend class CServer;
 	friend class CAcceptor;
 
 	enum 
@@ -26,6 +25,13 @@ public:
 	void OnReceived(DWORD recvBytes);
 	void OnConnected();
 	void OnDisconnected();
+
+protected:
+	// User override
+	virtual void OnSessionReceived()		{}
+	virtual void OnSessionConnected()		{}
+	virtual void OnSessionDisConnected()	{}
+	virtual void OnSessionSend()			{}
 
 private:
 	mutable std::mutex						_mMutex;
