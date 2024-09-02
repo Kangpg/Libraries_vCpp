@@ -25,7 +25,7 @@ void CAcceptor::PacketProcess(DWORD recvBytes)
 	if (!CSocket::SetSocketOpt(_mSession->GetSocket(), SO_UPDATE_ACCEPT_CONTEXT, _mListenSock))
 		::runtime_error("SetSocketOpt");
 
-	_mSession->OnConnected();
+	_mSession->OnSessionConnected();
 
 	// TODO : 세션 등록 후 다시 Accept
 

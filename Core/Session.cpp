@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Session.h"
+#include "Protocol.h"
 
 CSession::CSession()
 {
@@ -65,8 +66,16 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 	}
 
 	{
-		// Pop data and process contents func
-		OnReceived(_mRecvBuf.GetHeadPos(), recvBytes);
+		sHeader* header = reinterpret_cast<sHeader*>(_mRecvBuf.GetHeadPos());
+		if (header == nullptr)
+		{
+			::runtime_error("OnSessionReceived");
+		}
+		else
+		{
+			// Pop data and process contents func
+			OnReceived(_mRecvBuf.GetHeadPos() + sizeof(sHeader), header->mSize);
+		}
 
 		if (!_mRecvBuf.MoveRear(recvBytes)) // readable
 		{
