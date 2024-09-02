@@ -23,16 +23,16 @@ public:
 
 	void SendPacket(::WSABUF& buf);
 
-	void OnReceived(DWORD recvBytes);
-	void OnConnected();
-	void OnDisconnected();
+	void OnSessionReceived(DWORD recvBytes);
+	void OnSessionConnected();
+	void OnSessionDisconnected();
 
 protected:
 	// User override
-	virtual void OnSessionReceived()		{}
-	virtual void OnSessionConnected()		{}
-	virtual void OnSessionDisConnected()	{}
-	virtual void OnSessionSend()			{}
+	virtual void OnReceived(BYTE* buffer, uint32 len)		{}
+	virtual void OnConnected()		{}
+	virtual void OnDisConnected()	{}
+	virtual void OnSend()			{}
 
 private:
 	mutable std::mutex						_mMutex;

@@ -72,7 +72,7 @@ CConnector::CConnector()
 
 }
 
-void CConnector::Init(shared_ptr<CSession> session)
+void CConnector::Init(weak_ptr<CSession> session)
 {
 	_mSession = session;
 }
@@ -88,7 +88,7 @@ CDisConnector::CDisConnector()
 
 }
 
-void CDisConnector::Init(shared_ptr<CSession> session)
+void CDisConnector::Init(weak_ptr<CSession> session)
 {
 	_mSession = session;
 }
@@ -104,7 +104,7 @@ CSender::CSender()
 
 }
 
-void CSender::Init(shared_ptr<CSession> session)
+void CSender::Init(weak_ptr<CSession> session)
 {
 	_mSession = session;
 }
@@ -120,12 +120,13 @@ CReceiver::CReceiver()
 	
 }
 
-void CReceiver::Init(shared_ptr<CSession> session)
+void CReceiver::Init(weak_ptr<CSession> session)
 {
 	_mSession = session;
 }
 
 void CReceiver::PacketProcess(DWORD recvBytes)
 {
-	_mSession->OnReceived(recvBytes);
+	if(auto session = _mSession.lock())
+		session->OnSessionReceived(recvBytes);
 }

@@ -29,11 +29,11 @@ class CConnector : public COverlapped
 public:
 	CConnector();
 
-	void			Init(shared_ptr<CSession> session);
+	void			Init(weak_ptr<CSession> session);
 	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	shared_ptr<CSession>	_mSession;
+	weak_ptr<CSession>	_mSession;
 };
 
 class CDisConnector : public COverlapped
@@ -41,11 +41,11 @@ class CDisConnector : public COverlapped
 public:
 	CDisConnector();
 
-	void			Init(shared_ptr<CSession> session);
+	void			Init(weak_ptr<CSession> session);
 	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	shared_ptr<CSession>	_mSession;
+	weak_ptr<CSession>	_mSession;
 };
 
 class CSender : public COverlapped
@@ -53,11 +53,11 @@ class CSender : public COverlapped
 public:
 	CSender();
 
-	void			Init(shared_ptr<CSession> session);
+	void			Init(weak_ptr<CSession> session);
 	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	shared_ptr<CSession>	_mSession;
+	weak_ptr<CSession>	_mSession;
 };
 
 class CReceiver : public COverlapped
@@ -65,9 +65,9 @@ class CReceiver : public COverlapped
 public:
 	CReceiver();
 
-	void			Init(shared_ptr<CSession> session);
+	void			Init(weak_ptr<CSession> session);
 	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	shared_ptr<CSession>	_mSession;
+	weak_ptr<CSession>	_mSession;
 };

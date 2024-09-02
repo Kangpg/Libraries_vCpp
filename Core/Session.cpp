@@ -21,10 +21,10 @@ CSession::~CSession()
 
 void CSession::Init()
 {
-	_mConnector.Init(shared_from_this());
-	_mDisConnector.Init(shared_from_this());
-	_mSender.Init(shared_from_this());
-	_mReceiver.Init(shared_from_this());
+	_mConnector.Init(weak_from_this());
+	_mDisConnector.Init(weak_from_this());
+	_mSender.Init(weak_from_this());
+	_mReceiver.Init(weak_from_this());
 }
 
 SOCKET CSession::GetSocket() const 
@@ -49,27 +49,28 @@ void CSession::SendPacket(::WSABUF& buf)
 	_mSendBuf.MoveRear(buf.len);
 }
 
-void CSession::OnReceived(DWORD recvBytes)
+void CSession::OnSessionReceived(DWORD recvBytes)
 {
 	// disconnected
 	if (recvBytes == 0)
 	{
-		OnDisconnected();
+		OnSessionDisconnected();
 		return;
 	}
 
 	if (!_mRecvBuf.MoveHead(recvBytes))
 	{
-		OnDisconnected();
+		OnSessionDisconnected();
 		return;
 	}
 
 	{
 		// Pop data and process contents func
+		OnReceived(_mRecvBuf.GetHeadPos(), recvBytes);
 
 		if (!_mRecvBuf.MoveRear(recvBytes)) // readable
 		{
-			OnDisconnected();
+			OnSessionDisconnected();
 			return;
 		}
 	}
@@ -89,7 +90,7 @@ void CSession::OnReceived(DWORD recvBytes)
 	return;
 }
 
-void CSession::OnConnected()
+void CSession::OnSessionConnected()
 {
 	::WSABUF wsabuf;
 	wsabuf.buf = reinterpret_cast<char*>(_mRecvBuf.GetHeadPos());
@@ -103,7 +104,7 @@ void CSession::OnConnected()
 	}
 }
 
-void CSession::OnDisconnected()
+void CSession::OnSessionDisconnected()
 {
 
 }
