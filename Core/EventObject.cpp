@@ -66,10 +66,15 @@ bool CAcceptor::AcceptSocket()
 	return true;
 }
 
-CConnector::CConnector(shared_ptr<CSession> session)
-	: COverlapped(COverlapped::eFLAG::eConnect), _mSession(session)
+CConnector::CConnector()
+	: COverlapped(COverlapped::eFLAG::eConnect)
 {
 
+}
+
+void CConnector::Init(shared_ptr<CSession> session)
+{
+	_mSession = session;
 }
 
 void CConnector::PacketProcess(DWORD recvBytes)
@@ -77,10 +82,15 @@ void CConnector::PacketProcess(DWORD recvBytes)
 
 }
 
-CDisConnector::CDisConnector(shared_ptr<CSession> session)
-	: COverlapped(COverlapped::eFLAG::eDisconnect), _mSession(session)
+CDisConnector::CDisConnector()
+	: COverlapped(COverlapped::eFLAG::eDisconnect)
 {
 
+}
+
+void CDisConnector::Init(shared_ptr<CSession> session)
+{
+	_mSession = session;
 }
 
 void CDisConnector::PacketProcess(DWORD recvBytes)
@@ -88,10 +98,15 @@ void CDisConnector::PacketProcess(DWORD recvBytes)
 
 }
 
-CSender::CSender(shared_ptr<CSession> session)
-	: COverlapped(COverlapped::eFLAG::eSend), _mSession(session)
+CSender::CSender()
+	: COverlapped(COverlapped::eFLAG::eSend)
 {
 
+}
+
+void CSender::Init(shared_ptr<CSession> session)
+{
+	_mSession = session;
 }
 
 void CSender::PacketProcess(DWORD recvBytes)
@@ -99,14 +114,18 @@ void CSender::PacketProcess(DWORD recvBytes)
 
 }
 
-CReceiver::CReceiver(shared_ptr<CSession> session)
-	: COverlapped(COverlapped::eFLAG::eReceive), _mSession(session)
+CReceiver::CReceiver()
+	: COverlapped(COverlapped::eFLAG::eReceive)
 {
 	
 }
 
+void CReceiver::Init(shared_ptr<CSession> session)
+{
+	_mSession = session;
+}
+
 void CReceiver::PacketProcess(DWORD recvBytes)
 {
-	if (auto session = _mSession.lock())
-		session->OnReceived(recvBytes);
+	_mSession->OnReceived(recvBytes);
 }

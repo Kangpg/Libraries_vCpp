@@ -19,51 +19,55 @@ public:
 	bool			AcceptSocket();
 
 private:
-	shared_ptr<CServer>					_mServer;
-	shared_ptr<CSession>				_mSession;
-	SOCKET								_mListenSock = INVALID_SOCKET;
+	shared_ptr<CServer>		_mServer;
+	shared_ptr<CSession>	_mSession;
+	SOCKET					_mListenSock = INVALID_SOCKET;
 };
 
 class CConnector : public COverlapped
 {
 public:
-	CConnector(shared_ptr<CSession> session);
+	CConnector();
 
-	virtual void PacketProcess(DWORD recvBytes) override;
+	void			Init(shared_ptr<CSession> session);
+	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	weak_ptr<CSession>	_mSession;
+	shared_ptr<CSession>	_mSession;
 };
 
 class CDisConnector : public COverlapped
 {
 public:
-	CDisConnector(shared_ptr<CSession> session);
+	CDisConnector();
 
-	virtual void PacketProcess(DWORD recvBytes) override;
+	void			Init(shared_ptr<CSession> session);
+	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	weak_ptr<CSession>	_mSession;
+	shared_ptr<CSession>	_mSession;
 };
 
 class CSender : public COverlapped
 {
 public:
-	CSender(shared_ptr<CSession> session);
+	CSender();
 
-	virtual void PacketProcess(DWORD recvBytes) override;
+	void			Init(shared_ptr<CSession> session);
+	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	weak_ptr<CSession>	_mSession;
+	shared_ptr<CSession>	_mSession;
 };
 
 class CReceiver : public COverlapped
 {
 public:
-	CReceiver(shared_ptr<CSession> session);
+	CReceiver();
 
-	virtual void PacketProcess(DWORD recvBytes) override;
+	void			Init(shared_ptr<CSession> session);
+	virtual void	PacketProcess(DWORD recvBytes) override;
 
 private:
-	weak_ptr<CSession>	_mSession;
+	shared_ptr<CSession>	_mSession;
 };

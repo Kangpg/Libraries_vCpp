@@ -29,5 +29,5 @@ public:
 	virtual void	PacketProcess(DWORD recvBytes) abstract;
 
 protected:
-	eFLAG			_mFlag = eFLAG::eNone;
+	eFLAG					_mFlag = eFLAG::eNone;
 };

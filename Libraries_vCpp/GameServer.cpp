@@ -6,15 +6,15 @@ int main()
 {
 	CWinNetwork net;
 
-	CGameServer gameserver(L"127.0.0.1", 7777, []() { return make_shared<CServerSession>(); }, 1000);
+	auto gameserver = make_shared<CGameServer>(L"127.0.0.1", 7777, []() { return make_shared<CServerSession>(); }, 1000);
 
-	gameserver.Start();
+	gameserver->Start();
 
 	CThreadManager::GetInstance().Async([&]()
 		{
 			while (true)
 			{
-				gameserver.Process();
+				gameserver->Process();
 			}
 		});
 

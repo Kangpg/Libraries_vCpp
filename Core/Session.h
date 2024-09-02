@@ -18,6 +18,7 @@ public:
 	CSession();
 	~CSession();
 
+	void Init();
 	SOCKET GetSocket() const;
 
 	void SendPacket(::WSABUF& buf);

@@ -2,7 +2,6 @@
 #include "Session.h"
 
 CSession::CSession()
-	: _mConnector(shared_from_this()), _mDisConnector(shared_from_this()), _mSender(shared_from_this()), _mReceiver(shared_from_this())
 {
 	_mSock = CSocket::CreateSocket(WSA_FLAG_OVERLAPPED);
 	if (_mSock == INVALID_SOCKET)
@@ -18,6 +17,14 @@ CSession::~CSession()
 		closesocket(_mSock);
 		_mSock = INVALID_SOCKET;
 	}
+}
+
+void CSession::Init()
+{
+	_mConnector.Init(shared_from_this());
+	_mDisConnector.Init(shared_from_this());
+	_mSender.Init(shared_from_this());
+	_mReceiver.Init(shared_from_this());
 }
 
 SOCKET CSession::GetSocket() const 

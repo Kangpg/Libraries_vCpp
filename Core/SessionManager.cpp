@@ -7,6 +7,7 @@ CSessionManager::CSessionManager(const uint16 sessionCnt, function<shared_ptr<CS
 	for (auto idx = 0; idx < _mMaxSessionCnt; ++idx)
 	{
 		shared_ptr<CSession> session = func();
+		session->Init();
 		_mSessionList.push_back(session);
 	}
 }
