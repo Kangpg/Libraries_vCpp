@@ -5,7 +5,7 @@
 #include "Protocol.pb.h"
 
 #define REGIST_HANDLER(packetid)				case ePacketId::packetid: CPacketHandler::Handler_##packetid(session, buffer, size); break
-#define DEFINE_HANDLER(packetid)				void Handler_##packetid(shared_ptr<CSession>& session, BYTE* buffer, uint32 size)
+#define DEFINE_HANDLER(packetid)				static void Handler_##packetid(shared_ptr<CSession>& session, BYTE* buffer, uint32 size)
 #define IMPL_HANDLER(packetid)					void CPacketHandler::Handler_##packetid(shared_ptr<CSession> session, BYTE* buffer, uint32 size)
 
 class CSession;
@@ -14,15 +14,23 @@ class CPacketHandler
 public:
 	CPacketHandler() = default;
 
-	bool HandlePacket(ePacketId packetid, shared_ptr<CSession>& session, BYTE* buffer, uint32 size)
+	static bool HandlePacket(shared_ptr<CSession> session, BYTE* buffer, uint32 size)
 	{
-		switch (packetid)
+		sHeader* header = reinterpret_cast<sHeader*>(buffer);
+		if (header == nullptr)
 		{
-			REGIST_HANDLER(PACKET_SC_CHAT);
+			::runtime_error("OnSessionReceived");
+		}
+		else
+		{
+			switch (static_cast<ePacketId>(header->mPacketId))
+			{
+				REGIST_HANDLER(PACKET_SC_CHAT);
 
-		default:
-			// Packet Err
-			return false;
+			default:
+				// Packet Err
+				return false;
+			}
 		}
 
 		return true;
@@ -38,6 +46,6 @@ public:
 			return;
 		}
 
-		
+		// TODO
 	}
 };
