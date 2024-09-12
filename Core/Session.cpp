@@ -55,13 +55,13 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 	// disconnected
 	if (recvBytes == 0)
 	{
-		OnSessionDisconnected();
+		OnDisConnected();
 		return;
 	}
 
 	if (!_mRecvBuf.MoveHead(recvBytes))
 	{
-		OnSessionDisconnected();
+		OnDisConnected();
 		return;
 	}
 
@@ -79,7 +79,7 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 
 		if (!_mRecvBuf.MoveRear(recvBytes)) // readable
 		{
-			OnSessionDisconnected();
+			OnDisConnected();
 			return;
 		}
 	}
@@ -101,6 +101,8 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 
 void CSession::OnSessionConnected()
 {
+	OnConnected();
+
 	::WSABUF wsabuf;
 	wsabuf.buf = reinterpret_cast<char*>(_mRecvBuf.GetHeadPos());
 	wsabuf.len = static_cast<ULONG>(_mRecvBuf.GetUsable());
@@ -111,9 +113,4 @@ void CSession::OnSessionConnected()
 	{
 		::runtime_error("WSARecv error");
 	}
-}
-
-void CSession::OnSessionDisconnected()
-{
-
 }

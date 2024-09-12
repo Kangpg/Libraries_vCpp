@@ -10,17 +10,9 @@ public:
 	virtual ~CServerSession() = default;
 
 protected:
-	virtual void OnConnected() {}
-	virtual void OnDisConnected() {}
-	virtual void OnReceived(BYTE* buffer, uint32 len) 
-	{
-		sHeader* header = reinterpret_cast<sHeader*>(buffer);
-
-		if (!CPacketHandler::HandlePacket(shared_from_this(), buffer, len))
-		{
-			::runtime_error("OnReceived");
-		}
-	}
-	virtual void OnSend() {}
+	virtual void OnConnected() override {}
+	virtual void OnDisConnected() override {}
+	virtual void OnReceived(BYTE* buffer, uint32 len) override;
+	virtual void OnSend() override {}
 };
 

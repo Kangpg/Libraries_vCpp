@@ -25,7 +25,6 @@ public:
 
 	void OnSessionReceived(DWORD recvBytes);
 	void OnSessionConnected();
-	void OnSessionDisconnected();
 
 protected:
 	// User override
@@ -35,7 +34,6 @@ protected:
 	virtual void OnSend()			{}
 
 private:
-	mutable std::mutex						_mMutex;
 	SOCKET									_mSock			= INVALID_SOCKET;
 	SOCKADDR_IN								_mAddress		= {};
 
@@ -44,6 +42,7 @@ private:
 	CSender									_mSender;
 	CReceiver								_mReceiver;
 
+	mutable std::mutex						_mMutex;
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mRecvBuf;
 	CStreamingBuffer<eSTREAMING_BUFF_SIZE>	_mSendBuf;
 };

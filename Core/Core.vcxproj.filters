@@ -81,6 +81,9 @@
     <ClInclude Include="EventObject.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="ZmqClient.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="EventObject.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="ZmqClient.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

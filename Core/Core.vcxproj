@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)\ThirdParty\tbb\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\ThirdParty\tbb;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\ThirdParty\tbb\include;$(SolutionDir)\ThirdParty\zmq\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\ThirdParty\tbb;$(SolutionDir)\ThirdParty\zmq\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)\ThirdParty\tbb\include;$(IncludePath)</IncludePath>
@@ -170,6 +170,7 @@
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinNetwork.h" />
+    <ClInclude Include="ZmqClient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventObject.cpp" />
@@ -196,6 +197,7 @@
     <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinNetwork.cpp" />
+    <ClCompile Include="ZmqClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
