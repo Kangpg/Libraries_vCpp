@@ -171,6 +171,7 @@
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WinNetwork.h" />
     <ClInclude Include="ZmqClient.h" />
+    <ClInclude Include="ZmqServer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventObject.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WinNetwork.cpp" />
     <ClCompile Include="ZmqClient.cpp" />
+    <ClCompile Include="ZmqServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

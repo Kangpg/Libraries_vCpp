@@ -84,6 +84,9 @@
     <ClInclude Include="ZmqClient.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ZmqServer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -144,6 +147,9 @@
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="ZmqClient.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ZmqServer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

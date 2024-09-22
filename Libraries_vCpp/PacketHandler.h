@@ -14,23 +14,15 @@ class CPacketHandler
 public:
 	CPacketHandler() = default;
 
-	static bool HandlePacket(shared_ptr<CSession> session, BYTE* buffer, uint32 size)
+	static bool HandlePacket(shared_ptr<CSession> session, int32 id, BYTE* buffer, uint32 size)
 	{
-		sHeader* header = reinterpret_cast<sHeader*>(buffer);
-		if (header == nullptr)
+		switch (static_cast<ePacketId>(id))
 		{
-			::runtime_error("OnSessionReceived");
-		}
-		else
-		{
-			switch (static_cast<ePacketId>(header->mPacketId))
-			{
-				REGIST_HANDLER(PACKET_SC_CHAT);
+			REGIST_HANDLER(PACKET_SC_CHAT);
 
-			default:
-				// Packet Err
-				return false;
-			}
+		default:
+			// Packet Err
+			return false;
 		}
 
 		return true;
@@ -40,7 +32,7 @@ public:
 	DEFINE_HANDLER(PACKET_SC_CHAT)
 	{
 		Protocol::PACKET_SC_CHAT packet;
-		if (!packet.ParseFromArray(buffer + sizeof(sHeader), size - sizeof(sHeader)))
+		if (!packet.ParseFromArray(buffer, size))
 		{
 			// ERR
 			return;

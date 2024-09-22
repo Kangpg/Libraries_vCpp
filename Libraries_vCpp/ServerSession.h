@@ -12,7 +12,7 @@ public:
 protected:
 	virtual void OnConnected() override {}
 	virtual void OnDisConnected() override {}
-	virtual void OnReceived(BYTE* buffer, uint32 len) override;
+	virtual void OnReceived(int32 id, BYTE* buffer, uint32 len) override;
 	virtual void OnSend() override {}
 };
 

@@ -28,7 +28,7 @@ public:
 
 protected:
 	// User override
-	virtual void OnReceived(BYTE* buffer, uint32 len)		{}
+	virtual void OnReceived(int32 id, BYTE* buffer, uint32 len)		{}
 	virtual void OnConnected()		{}
 	virtual void OnDisConnected()	{}
 	virtual void OnSend()			{}

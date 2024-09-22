@@ -15,7 +15,7 @@ public:
 	{
 		_mRouter.connect(zmqAddress.c_str());
 
-		_mThread = thread(&CZmqClient::ZmqHandler, this, &_mContext);
+		_mThread = thread(&CZmqClient::ZmqHandler, this, ref(_mContext));
 	}
 
 	virtual ~CZmqClient()
@@ -29,7 +29,10 @@ public:
 		while (true)
 		{
 			message_t msg;
-			_mRouter.recv(msg, recv_flags::none);
+			if (auto ret = _mRouter.recv(msg, recv_flags::none); ret)
+			{
+				
+			}
 		}
 	}
 

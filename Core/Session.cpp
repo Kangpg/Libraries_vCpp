@@ -66,7 +66,7 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 	}
 
 	{
-		sHeader* header = reinterpret_cast<sHeader*>(_mRecvBuf.GetHeadPos());
+		sHeader* header = reinterpret_cast<sHeader*>(_mRecvBuf.GetRearPos());
 		if (header == nullptr)
 		{
 			::runtime_error("OnSessionReceived");
@@ -74,7 +74,7 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 		else
 		{
 			// Pop data and process contents func
-			OnReceived(_mRecvBuf.GetHeadPos() + sizeof(sHeader), header->mSize);
+			OnReceived(header->mPacketId, _mRecvBuf.GetRearPos() + sizeof(sHeader), header->mSize);
 		}
 
 		if (!_mRecvBuf.MoveRear(recvBytes)) // readable

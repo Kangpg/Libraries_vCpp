@@ -15,7 +15,7 @@ public:
 	{
 		_mDealer.bind(zmqAddress.c_str());
 
-		_mThread = thread(&CZmqServer::ZmqHandler, this, &_mContext);
+		_mThread = thread(&CZmqServer::ZmqHandler, this, ref(_mContext));
 	}
 
 	virtual ~CZmqServer()
@@ -29,7 +29,10 @@ public:
 		while (true)
 		{
 			message_t msg;
-			_mDealer.recv(msg, recv_flags::none);
+			if (auto ret = _mDealer.recv(msg, recv_flags::none); ret)
+			{
+
+			}
 		}
 	}
 

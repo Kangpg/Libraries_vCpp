@@ -35,6 +35,7 @@ public:
 	CStreamingBuffer& operator >> (__out _Ty* dest);
 
 	BYTE* GetHeadPos() { return &_mBuf[_mHead]; }
+	BYTE* GetRearPos() { return &_mBuf[_mRear]; }
 
 private:
 	uint32	_mHead		= 0;
