@@ -66,6 +66,8 @@ void CSession::OnSessionReceived(DWORD recvBytes)
 	}
 
 	{
+		
+
 		sHeader* header = reinterpret_cast<sHeader*>(_mRecvBuf.GetRearPos());
 		if (header == nullptr)
 		{

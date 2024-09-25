@@ -1,6 +1,13 @@
 syntax = "proto3";
 package Protocol;
 
+message PACKET_HEADER
+{
+	uint32 size = 1;
+	uint32 id = 2;
+	uint32 checksum = 3;
+}
+
 message PACKET_SC_CHAT
 {
 	bool success = 1;

@@ -45,16 +45,190 @@ struct TableStruct_Protocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Protocol_2eproto;
 namespace Protocol {
+class PACKET_HEADER;
+struct PACKET_HEADERDefaultTypeInternal;
+extern PACKET_HEADERDefaultTypeInternal _PACKET_HEADER_default_instance_;
 class PACKET_SC_CHAT;
 struct PACKET_SC_CHATDefaultTypeInternal;
 extern PACKET_SC_CHATDefaultTypeInternal _PACKET_SC_CHAT_default_instance_;
 }  // namespace Protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::Protocol::PACKET_HEADER* Arena::CreateMaybeMessage<::Protocol::PACKET_HEADER>(Arena*);
 template<> ::Protocol::PACKET_SC_CHAT* Arena::CreateMaybeMessage<::Protocol::PACKET_SC_CHAT>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Protocol {
 
 // ===================================================================
+
+class PACKET_HEADER final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.PACKET_HEADER) */ {
+ public:
+  inline PACKET_HEADER() : PACKET_HEADER(nullptr) {}
+  ~PACKET_HEADER() override;
+  explicit PROTOBUF_CONSTEXPR PACKET_HEADER(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PACKET_HEADER(const PACKET_HEADER& from);
+  PACKET_HEADER(PACKET_HEADER&& from) noexcept
+    : PACKET_HEADER() {
+    *this = ::std::move(from);
+  }
+
+  inline PACKET_HEADER& operator=(const PACKET_HEADER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PACKET_HEADER& operator=(PACKET_HEADER&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PACKET_HEADER& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PACKET_HEADER* internal_default_instance() {
+    return reinterpret_cast<const PACKET_HEADER*>(
+               &_PACKET_HEADER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(PACKET_HEADER& a, PACKET_HEADER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PACKET_HEADER* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PACKET_HEADER* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PACKET_HEADER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<PACKET_HEADER>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PACKET_HEADER& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const PACKET_HEADER& from) {
+    PACKET_HEADER::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PACKET_HEADER* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Protocol.PACKET_HEADER";
+  }
+  protected:
+  explicit PACKET_HEADER(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSizeFieldNumber = 1,
+    kIdFieldNumber = 2,
+    kChecksumFieldNumber = 3,
+  };
+  // uint32 size = 1;
+  void clear_size();
+  uint32_t size() const;
+  void set_size(uint32_t value);
+  private:
+  uint32_t _internal_size() const;
+  void _internal_set_size(uint32_t value);
+  public:
+
+  // uint32 id = 2;
+  void clear_id();
+  uint32_t id() const;
+  void set_id(uint32_t value);
+  private:
+  uint32_t _internal_id() const;
+  void _internal_set_id(uint32_t value);
+  public:
+
+  // uint32 checksum = 3;
+  void clear_checksum();
+  uint32_t checksum() const;
+  void set_checksum(uint32_t value);
+  private:
+  uint32_t _internal_checksum() const;
+  void _internal_set_checksum(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Protocol.PACKET_HEADER)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint32_t size_;
+    uint32_t id_;
+    uint32_t checksum_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_Protocol_2eproto;
+};
+// -------------------------------------------------------------------
 
 class PACKET_SC_CHAT final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Protocol.PACKET_SC_CHAT) */ {
@@ -104,7 +278,7 @@ class PACKET_SC_CHAT final :
                &_PACKET_SC_CHAT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(PACKET_SC_CHAT& a, PACKET_SC_CHAT& b) {
     a.Swap(&b);
@@ -211,6 +385,70 @@ class PACKET_SC_CHAT final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// PACKET_HEADER
+
+// uint32 size = 1;
+inline void PACKET_HEADER::clear_size() {
+  _impl_.size_ = 0u;
+}
+inline uint32_t PACKET_HEADER::_internal_size() const {
+  return _impl_.size_;
+}
+inline uint32_t PACKET_HEADER::size() const {
+  // @@protoc_insertion_point(field_get:Protocol.PACKET_HEADER.size)
+  return _internal_size();
+}
+inline void PACKET_HEADER::_internal_set_size(uint32_t value) {
+  
+  _impl_.size_ = value;
+}
+inline void PACKET_HEADER::set_size(uint32_t value) {
+  _internal_set_size(value);
+  // @@protoc_insertion_point(field_set:Protocol.PACKET_HEADER.size)
+}
+
+// uint32 id = 2;
+inline void PACKET_HEADER::clear_id() {
+  _impl_.id_ = 0u;
+}
+inline uint32_t PACKET_HEADER::_internal_id() const {
+  return _impl_.id_;
+}
+inline uint32_t PACKET_HEADER::id() const {
+  // @@protoc_insertion_point(field_get:Protocol.PACKET_HEADER.id)
+  return _internal_id();
+}
+inline void PACKET_HEADER::_internal_set_id(uint32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void PACKET_HEADER::set_id(uint32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Protocol.PACKET_HEADER.id)
+}
+
+// uint32 checksum = 3;
+inline void PACKET_HEADER::clear_checksum() {
+  _impl_.checksum_ = 0u;
+}
+inline uint32_t PACKET_HEADER::_internal_checksum() const {
+  return _impl_.checksum_;
+}
+inline uint32_t PACKET_HEADER::checksum() const {
+  // @@protoc_insertion_point(field_get:Protocol.PACKET_HEADER.checksum)
+  return _internal_checksum();
+}
+inline void PACKET_HEADER::_internal_set_checksum(uint32_t value) {
+  
+  _impl_.checksum_ = value;
+}
+inline void PACKET_HEADER::set_checksum(uint32_t value) {
+  _internal_set_checksum(value);
+  // @@protoc_insertion_point(field_set:Protocol.PACKET_HEADER.checksum)
+}
+
+// -------------------------------------------------------------------
+
 // PACKET_SC_CHAT
 
 // bool success = 1;
@@ -236,6 +474,8 @@ inline void PACKET_SC_CHAT::set_success(bool value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
